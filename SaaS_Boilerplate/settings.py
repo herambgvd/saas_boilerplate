@@ -13,14 +13,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'gvd.localhost', 'vidinsights.cloud',
+                 'gvd.vidinsights.cloud',
+                 'airtel.vidinsights.cloud', 'airtel.localhost']
+
+CSRF_TRUSTED_ORIGINS = [
+	'https://vidinsights.cloud',
+	'https://gvd.vidinsights.cloud',
+	'https://airtel.vidinsights.cloud',
+]
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
 SHARED_APPS = [
-	"daphne",
+	'daphne',
 	'django_tenants',
 	'tenant',
 	'django.contrib.admin',
@@ -110,6 +120,7 @@ TEMPLATES = [
 	},
 ]
 
+# WSGI_APPLICATION = 'SaaS_Boilerplate.wsgi.application'
 ASGI_APPLICATION = 'SaaS_Boilerplate.asgi.application'
 
 # Database

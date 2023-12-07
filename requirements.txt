@@ -34,6 +34,7 @@ incremental==22.10.0
 jmespath==1.0.1
 oauthlib==3.2.2
 ordered-set==4.1.0
+packaging==23.2
 paho-mqtt==1.6.1
 Pillow==10.1.0
 psycopg2==2.9.9
