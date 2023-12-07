@@ -30,7 +30,6 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 SHARED_APPS = [
-	'daphne',
 	'django_tenants',
 	'tenant',
 	'django.contrib.admin',
@@ -49,7 +48,6 @@ SHARED_APPS = [
 ]
 
 TENANT_APPS = [
-	'daphne',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -120,8 +118,8 @@ TEMPLATES = [
 	},
 ]
 
-# WSGI_APPLICATION = 'SaaS_Boilerplate.wsgi.application'
-ASGI_APPLICATION = 'SaaS_Boilerplate.asgi.application'
+WSGI_APPLICATION = 'SaaS_Boilerplate.wsgi.application'
+# ASGI_APPLICATION = 'SaaS_Boilerplate.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

@@ -20,5 +20,5 @@ RUN pip install --upgrade pip && \
 COPY . /app/
 
 # Run the application
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "SaaS_Boilerplate.asgi:application"]
+CMD ["gunicorn", "-b", "0.0.0.0", "-p", "8000", "SaaS_Boilerplate.wsgi:application"]
 
