@@ -1,0 +1,148 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Alert Acknowledge{% endblock title %}
+{% block extra_css %}
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet'/>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Surveillance" title="Acknowledge Process" subtitle="Live" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Alert Info -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">
+                                            Alert Info
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span>Branch:&nbsp;{{ data.alert.branch.branchName }}</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>Address:&nbsp;{{ data.alert.branch.branchAddress }}</span>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span>State:&nbsp;{{ data.alert.branch.state }}</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>City:&nbsp;{{ data.alert.branch.city }}</span>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span>Contact No.:&nbsp;{{ data.alert.branch.branchNumber }}</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>Branch Code:&nbsp;{{ data.alert.branch.branchCode }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Location -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">
+                                            Location
+                                        </span>
+                                    </div>
+                                    <div class="card-body" id='map' style='width: 100%; height: 350px;'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Acknowledgment -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">
+                                    Acknowledge Process
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{% url 'Surveillance:testAlertAcknowledge' data.id %}">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="example-content">
+                                            <label class="form-label">Alert Type</label>
+                                            {% render_field form.alertType class="form-select" %}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="example-content">
+                                            <label class="form-label">Description</label>
+                                            {% render_field form.description class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="example-content">
+                                            <label class="form-label">Acknowledged</label>
+                                            {% render_field form.ack class="form-select"> %}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    {% block footer %}
+        {% include "tenant/partials/footer.html" %}
+    {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaGVyYW1ibSIsImEiOiJja3lsZjNwcnUyb240MnVxaGZ2Y2w1Y2lpIn0.CEsnNMuTnZJsBb0WaZIz4w';
+        let map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/herambm/ckylha7inarjn15pcnih3hz4j',
+            center: [{{ data.alert.branch.longitude }}, {{ data.alert.branch.latitude }}],
+            zoom: 12
+        });
+        const marker1 = new mapboxgl.Marker()
+            .setLngLat([{{ data.alert.branch.longitude }}, {{ data.alert.branch.latitude }}])
+            .addTo(map);
+        map.addControl(new mapboxgl.NavigationControl());
+    </script>
+{% endblock extra_js %}

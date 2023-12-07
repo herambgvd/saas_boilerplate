@@ -1,0 +1,88 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Alert Detail{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Alerts" title="Alert History" subtitle="Alerts" %}
+                {% endblock pagetitle %}
+
+                <div class="row" id="alert-container">
+                    <div class="row">
+                        <div class="loader" style="display: none;">Loading...</div>
+                        <!-- AI models Alert will be loaded here via AJAX -->
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function fetchAlertData() {
+                // Show the loader
+                $(".loader").show();
+
+                // Wait for 4 seconds
+                setTimeout(function () {
+                    // Perform AJAX request
+                    $.ajax({
+                        url: "{{ aiServer }}live/ppe-frames/?tenant_request={{ tenantRequest }}&asset_info={{ assetName.name }}", // Replace with your actual API endpoint
+                        type: "GET",
+                        success: function (data) {
+                            // Hide the loader
+                            $(".loader").hide();
+
+                            // Process each alert and add it to the container
+                            data.forEach(function (alert) {
+                                let cardHtml = `
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <img class="card-img-top img-fluid alert-image" src="${alert.frame}" alt="Frame" data-image-src="${alert.frame}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Alert ID: ${alert.id}</h5>
+                                            <p class="card-text">Asset: ${alert.asset_info}</p>
+                                            <p class="card-text">Detection: ${Object.entries(alert.detected_classes).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
+                                            <p class="card-text"><small class="text-muted">Created at: ${alert.created_at}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                                $("#alert-container").append(cardHtml);
+                            });
+                        },
+                        error: function (error) {
+                            // Handle error
+                            $(".loader").hide();
+                            console.error("Error fetching data: ", error);
+                        }
+                    });
+                }, 4000);
+            }
+
+            // Call the function when the page loads
+            fetchAlertData();
+        });
+    </script>
+{% endblock extra_js %}
+

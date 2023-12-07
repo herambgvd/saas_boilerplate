@@ -1,0 +1,83 @@
+{% extends 'tenant/partials/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Live Inference Onboarding{% endblock %}
+{% block extra_css %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Live Inference Onboarding</h4>
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Clarify</a></li>
+                                    <li class="breadcrumb-item active">Live Inference</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Marketplace:branch_detail' branchId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back to Branch
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post"
+                                      action="#">
+                                    {% csrf_token %}
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label class="label">Name</label>
+                                            {% render_field form.name class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label class="label">URL</label>
+                                            {% render_field form.liveUrl class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label class="label">Select Model</label>
+                                            {% render_field form.tagModel class="form-control js-example-basic-multiple" multiple="multiple" data-placeholder="Choose Model" %}
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <button type="submit" class="btn btn-success ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+    <!--jquery cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--select2 cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="{% static 'js/pages/select2.init.js' %}"></script>
+{% endblock extra_js %}

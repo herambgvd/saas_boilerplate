@@ -1,0 +1,82 @@
+{% extends "public/partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Tenant{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "public/partials/page-title.html" with pagetitle="Tenant" title="Add Tenant" subtitle="Create" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'publicHome:tenantList' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <form method="post"
+                                  action="{% url 'publicHome:createTenant' %}">
+                                {% csrf_token %}
+                                <div class="row m-4">
+                                    <div class="col">
+                                        <label class="label">Schema Name</label>
+                                        {% render_field form.schema_name class="form-control" %}
+                                    </div>
+                                    <div class="col">
+                                        <label class="label">Name</label>
+                                        {% render_field form.name class="form-control" %}
+                                    </div>
+                                    <div class="col">
+                                        <label class="label">Mail</label>
+                                        {% render_field form.mail class="form-control" %}
+                                    </div>
+                                    <div class="col">
+                                        <label class="label">End Subscription</label>
+                                        {% render_field form.end_subscription class="form-control" type="date" %}
+                                    </div>
+                                </div>
+                                <div class="row m-4">
+                                    <div class="col">
+                                        <label class="label">Description</label>
+                                        {% render_field form.description class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="row m-4">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "public/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

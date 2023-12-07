@@ -1,0 +1,57 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Marketplace{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Marketplace" title="Marketplace" subtitle="Market" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    {% for data in modelList %}
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="avatar-sm mx-auto mb-4 mt-1">
+                                            <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                <img src="{{ data.icon.url }}" alt="Marketplace Icon"
+                                                     width="30px">
+                                            </span>
+                                </div>
+                                <h5 class="font-size-15 mb-1">
+                                    <a href="javascript: void(0);" class="text-body">{{ data.name }}</a>
+                                </h5>
+                                <span class="text text-muted">{{ data.description }}</span>
+                                <p class="card-text"><small class="text-muted">Last updated
+                                    at : {{ data.updated_at }}</small></p>
+                                <a href="{% url 'Marketplace:marketplace_files_list' data.id %}" class="mb-2">
+                                    <button type="button" class="btn btn-sm btn-primary"> File Manager
+                                        <i class="mdi mdi-arrow-right"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> <!-- end row-->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

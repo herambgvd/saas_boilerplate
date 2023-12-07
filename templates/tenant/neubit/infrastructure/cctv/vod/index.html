@@ -1,0 +1,74 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}VOD{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Infrastructure" title="VOD" subtitle="VOD" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Infrastructure:nvrDetails' nvrId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for vod in cameraVod %}
+                        <div class="col-md-4 col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="text text-muted">
+                                        {{ vod.cctv.slugName }}
+                                    </span>
+                                </div>
+                                <div class="card-body">
+                                    <video class="mt-2" height="auto" width="100%"
+                                           src="https://stream.geniusvision.in:5443/LiveApp/{{ vod.file_path }}"
+                                           id="video{{ forloop.counter }}"
+                                           controls></video>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-outline-info btn-sm m-2">
+                                            Start Time : {{ vod.start_time|timestamp_to_date|date:"F d, Y H:i:s" }}
+                                        </button>
+                                        <button class="btn btn-outline-success btn-sm m-2">
+                                            Duration : {{ vod.duration|format_duration }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

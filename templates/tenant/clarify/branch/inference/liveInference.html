@@ -1,0 +1,218 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Assest Inferencing{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Asset Live Inference" title="Live Inference" subtitle="AI" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Marketplace:branch_detail' branchId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Manager
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Model Integrated -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text">Models</span>
+                            </div>
+                            <div class="card-body">
+                                {% for model in asset_info.tagModel.all %}
+                                    <div class="row m-2">
+                                        <button class="font-size-14 btn btn-outline-success model-button btn-sm"
+                                                data-model-name="{{ model.name }}"
+                                                data-model-path="{{ model.weights.url }}">{{ model.name }}</button>
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Add Modal for Duration Input -->
+                        <div class="modal fade" id="durationModal" tabindex="-1" aria-labelledby="durationModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="durationModalLabel">Inference Setup</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="duration"></label>
+                                        <input type="number" id="duration" class="form-control"
+                                               placeholder="Enter duration in seconds">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="startStreaming">Start
+                                            Streaming
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text">Inference Streaming</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row streaming"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to handle model button click
+            $('.model-button').click(function () {
+                // Get the model and other data
+                let modelName = $(this).data('model-name');
+                let modelPath = $(this).data('model-path');
+                let rtsp_url = `{{ asset_info.liveUrl }}`;
+                let topic_name = `{{ asset_info.name }}${modelName}`;
+                let button = $(this);  // Store the clicked button
+                console.log(modelName)
+                // Store the data in the modal's data attributes
+                $('#durationModal').data('rtsp-url', rtsp_url);
+                $('#durationModal').data('model-path', modelPath);
+                $('#durationModal').data('topic-name', topic_name);
+                $('#durationModal').data('model-name', modelName);
+                $('#durationModal').data('button', button);  // Store the button
+                // Show the modal
+                $('#durationModal').modal('show');
+            });
+
+            // Function to handle start streaming button click
+            $('#startStreaming').click(function () {
+                // Get the data from the modal's data attributes
+                let rtsp_url = $('#durationModal').data('rtsp-url');
+                let modelPath = $('#durationModal').data('model-path');
+                let topic_name = $('#durationModal').data('topic-name');
+                let button = $('#durationModal').data('button');
+                let duration = $('#duration').val();  // Get the duration input by the user
+                let tenant = `{{ tenant_request }}`;
+                let assetInfo = `{{ asset_info.name }}`;
+                let modelName = $('#durationModal').data('model-name');
+
+                // Make a POST request to the API endpoint
+                $.ajax({
+                    url: '{{ serverInfo }}live/stream/', // Replace with your API endpoint
+                    type: 'POST',
+                    data: JSON.stringify({
+                        rtsp_url: rtsp_url,
+                        model_path: modelPath,
+                        topic_name: topic_name,
+                        duration: duration,
+                        tenantRequest: tenant,
+                        assetInfo: assetInfo,
+                        modelName: modelName
+                    }),
+                    contentType: 'application/json', // Set the content type to JSON
+                    success: function (response) {
+                        console.log(response);
+                        // Check if the inference is already running
+                        if (response.message === "Inference already running") {
+                            displayIframe(topic_name, button);
+                        } else if (response.message === "Inference started") {
+                            // Delay the iframe source loading for 4 seconds
+                            setTimeout(function () {
+                                displayIframe(topic_name, button);
+                            }, 2000);
+                        } else {
+                            console.error('API request failed');
+                            alert('API request failed');
+                        }
+                    },
+                    error: function () {
+                        console.error('API request error');
+                    }
+                });
+
+                // Close the modal
+                $('#durationModal').modal('hide');
+            });
+
+            // Function to display the iframe
+            function displayIframe(topic_name, button) {
+                // Change the button class to btn-success
+                button.removeClass('btn-outline-success').addClass('btn-success');
+
+                // Show loader while loading iframe
+                $('#loader-container').show();
+
+                // Create a new div for the iframe
+                let iframeDiv = $('<div class="col-md-6">');
+
+                // Create a loader inside the iframe div
+                let loader = $('<div class="loader-container" id="iframe-loader">');
+                let spinner = $('<div class="loader">');
+                spinner.append('<div class="spinner-border text-primary" role="status">');
+                spinner.append('<p>Loading...</p>');
+                loader.append(spinner);
+
+                // Append the loader to the iframe div
+                iframeDiv.append(loader);
+
+                // Add the iframe div to the "Inference Streaming" section
+                $('.streaming').append(iframeDiv);
+
+                // Delay the iframe source loading for 4 seconds
+                setTimeout(function () {
+                    // Create an iframe element
+                    let iframe = $('<iframe>', {
+                        src: '{{ streamingInfo }}subscribe/' + topic_name + '/',
+                        frameborder: 0,
+                        width: '480px',
+                        height: '400px' // Adjust the height as needed
+                    });
+
+                    // Remove the loader
+                    $('#iframe-loader').remove();
+
+                    // Append the iframe to the div
+                    iframeDiv.append(iframe);
+
+                    // Hide the loader container
+                    $('#loader-container').hide();
+                }, 4000); // Delay for 4 seconds (4000 milliseconds)
+            }
+        });
+    </script>
+
+
+{% endblock extra_js %}

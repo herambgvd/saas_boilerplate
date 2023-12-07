@@ -1,0 +1,90 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Demo Alerts{% endblock title %}
+{% block extra_css %}
+    <style>
+        .heartbeat {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                opacity: .5;
+                transform: translateY(-50%) scale(.75);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+        }
+    </style>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Surveillance" title="Demo Alerts" subtitle="Live" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    {% for i in data %}
+                        <div class="col-xl-3">
+                            <div class="card ribbon-box right overflow-hidden">
+                                <div class="card-body text-center p-4">
+                                    <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
+                                        <i class="ri-alert-line text-white align-bottom"></i>
+                                        <span class="trending-ribbon-text">{{ i.alert.branch }}</span>
+                                    </div>
+                                    <h5 class="mb-1 mt-4">
+                                        <div style="display: inline-block; position: relative;">
+                                            <div class="heartbeat" style="background-color:{{ i.alert.colorCode }}"></div>
+                                            <a href="#" class="link-primary"
+                                               style="position: relative; z-index: 1;">{{ i.alert.alertName }}</a>
+                                        </div>
+                                    </h5>
+                                    <div class="d-flex align-items-center">
+                                        <a href="#"
+                                           class="m-2 btn btn-soft-danger btn-sm w-100">{{ i.alert.alertCode }}</a>
+                                        <a href="#" class="m-2 btn btn-soft-danger btn-sm w-100"> {{ i.created_at }}</a>
+                                    </div>
+                                    <div class="mt-4 d-flex align-items-center">
+{#                                        <a href="#" class="m-2 btn btn-warning w-100">Live Stream</a>#}
+                                        <a href="{% url 'Surveillance:testAlertAcknowledge' i.id %}"
+                                           class="m-2 btn btn-primary w-100">Acknowledge</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

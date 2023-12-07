@@ -1,0 +1,272 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}AI Dashboard{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="AI Dashboard" title="AI Dashboard" subtitle="AI" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <!-- Marketplace Info -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="text">Marketplace Summary</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="ai-models-container">
+                        <div class="row">
+                            <div class="loader" style="display: none;">Loading...</div>
+                            <!-- AI models data will be loaded here via AJAX -->
+                        </div>
+
+                    </div>
+                    <!--PPE Model Info -->
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span class="text">PPE Detection</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="ppe-detection-class">
+                                <!-- PPE Card Will Populate here -->
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span class="text">General Detection</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="general-detection-class">
+                                <!-- General Card Will Populate here -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Complete Chart -->
+                    <div class="row" id="complete-chart">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="text">Date-Wise Analysis</span>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="combined-chart" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let container = $('#ai-models-container .row');
+            let loader = $('.loader');
+            loader.show();
+
+            setTimeout(function () {
+                loader.hide();
+                $.ajax({
+                    url: '{% url 'tenantHome:ai_models_data' %}',  // Update with the actual URL
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.length === 0) {
+                            container.append('<div class="col-12"><p>No data found.</p></div>');
+                        } else {
+                            $.each(data, function (index, model) {
+                                let card = '<div class="col-md-3">' +
+                                    '<div class="card card-animate">' +
+                                    '<div class="card-body">' +
+                                    '<div class="d-flex align-items-center">' +
+                                    '<div class="flex-grow-1 overflow-hidden">' +
+                                    '<p class="text-uppercase fw-medium text-muted text-truncate mb-0">' + model.name + '</p>' +
+                                    '</div>' +
+                                    '<div class="flex-shrink-0">' +
+                                    '<img src="' + model.icon + '" class="img-fluid" alt="' + model.name + '" style="max-width: 50px;">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="d-flex align-items-end justify-content-between">' +
+                                    '<div>' +
+                                    '<h4 class="fs-16 fw-semibold ff-secondary mb-2">Usages: ' + model.times_used + '/' + model.usages_allowed + '</h4>' +
+                                    '<p class="mb-0">Total Files: ' + model.total_files_count + '</p>' +
+                                    '<p>Storage Used: ' + model.total_file_size.toFixed(2) + ' MB</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+
+                                container.append(card);
+                            });
+                        }
+                    }
+                });
+                $.ajax({
+                    url: '{{ aiServer }}/live/ppe-classes-count/?tenant_request={{ tenant_request }}', // Update with the actual URL
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (ppeData) {
+                        if (ppeData) {
+                            // Create cards for PPE classes and append them to #ppe-detection-class
+                            $.each(ppeData, function (ppeClass, ppeCount) {
+                                let ppeCard = '<div class="col-md-4">' +
+                                    '<a href={% url 'AI-Alert:inferenceList' %}>' + '<div class="card">' +
+                                    '<div class="card-body">' +
+                                    '<span class="text">' + ppeClass + ':&nbsp;' + ppeCount + '</span>' +
+                                    '</div>' +
+                                    '</div>' + '</a>' +
+                                    '</div>';
+
+                                $('#ppe-detection-class').append(ppeCard);
+                            });
+                        }
+                    }
+                });
+                $.ajax({
+                    url: '{{ aiServer }}/live/general-classes-count/?tenant_request={{ tenant_request }}', // Update with the actual URL
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (generalData) {
+                        if (generalData) {
+                            // Create cards for PPE classes and append them to #ppe-detection-class
+                            $.each(generalData, function (generalClass, generalCount) {
+                                // Capitalize the generalClass
+                                let capitalizedGeneralClass = generalClass.toUpperCase();
+
+                                let generalCard = '<div class="col-md-4">' +
+                                    '<a href={% url 'AI-Alert:inferenceList' %}>' + '<div class="card">' +
+                                    '<div class="card-body">' +
+                                    '<span class="text">' + capitalizedGeneralClass + ':&nbsp;' + generalCount + '</span>' +
+                                    '</div>' +
+                                    '</div>' + '</a>' +
+                                    '</div>';
+
+                                $('#general-detection-class').append(generalCard);
+                            });
+                        }
+                    }
+                });
+                $.ajax({
+                    url: '{{ aiServer }}/live/combined-frames/?tenant_request={{ tenant_request }}',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (chartData) {
+                        if (chartData) {
+                            // Extract data for chart
+                            let dates = Object.keys(chartData);
+
+                            // Extract labels (e.g., "tv", "chair", "person")
+                            let labels = [];
+                            for (let date in chartData) {
+                                labels.push(...Object.keys(chartData[date]));
+                            }
+                            labels = [...new Set(labels)]; // Remove duplicates
+
+                            let datasets = [];
+
+                            // Create datasets for each label
+                            for (let i = 0; i < labels.length; i++) {
+                                let label = labels[i];
+                                let data = [];
+
+                                // Extract data for each date
+                                for (let j = 0; j < dates.length; j++) {
+                                    let date = dates[j];
+                                    data.push(chartData[date][label] || 0); // Use 0 if data is missing for a label
+                                }
+
+                                // Create a dataset for the label
+                                datasets.push({
+                                    label: label,
+                                    data: data,
+                                    backgroundColor: getRandomColor(),
+                                    borderWidth: 1,
+                                });
+                            }
+
+                            // Create the bar chart
+                            let ctx = document.getElementById('combined-chart').getContext('2d');
+                            let combinedChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: dates,
+                                    datasets: datasets,
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    scales: {
+                                        x: {
+                                            title: {
+                                                display: true,
+                                                text: 'Date',
+                                            },
+                                        },
+                                        y: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Count',
+                                            },
+                                        },
+                                    },
+                                },
+                            });
+                        }
+                    },
+                });
+
+
+            }, 2000);  // 2 seconds delay
+            // Function to generate random colors
+            function getRandomColor() {
+                let letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        });
+    </script>
+
+
+{% endblock extra_js %}

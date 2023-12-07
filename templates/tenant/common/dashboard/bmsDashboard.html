@@ -1,0 +1,108 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}BMS Dashboard{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="BMS Dashboard" title="BMS Dashboard" subtitle="BMS" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card crm-widget">
+                            <div class="card-body p-0">
+                                <div class="row row-cols-xxl-4 row-cols-md-4 row-cols-1 g-0">
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">L1 Week Usage<i
+                                                    class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i>
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="las la-rocket fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span class="counter-value"
+                                                                           data-target="197">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">L2 Week Usage<i
+                                                    class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i>
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="las la-rocket fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span class="counter-value"
+                                                                           data-target="197">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">L3 Week Usage<i
+                                                    class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i>
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="las la-rocket fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span class="counter-value"
+                                                                           data-target="197">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">Predicted Energy Cost[For
+                                                Month]
+                                                <i class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i>
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="las la-rocket fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span class="counter-value"
+                                                                           data-target="197">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

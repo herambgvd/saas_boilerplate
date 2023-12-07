@@ -1,0 +1,189 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}{{ nvrDetail.slugName }}{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Infrastructure" title="NVR" subtitle="NVR" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            {% if request.tenant.cloudRecording %}
+                                <a href="{% url 'Infrastructure:fetch_and_save_vod_data' nvrDetail.id %}">
+                                    <button type="button" class="btn btn-warning">
+                                        <i class="bx bx-download"></i> Fetch VODs
+                                    </button>
+                                </a>
+                            {% else %}
+                                <a href="#">
+                                    <button type="button" class="btn btn-dark">
+                                        <i class="bx bx-cloud"></i> Request Cloud Recording
+                                    </button>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'Infrastructure:cctvCreate' nvrDetail.id %}">
+                                <button type="button" class="btn btn-success">
+                                    <i class="bx bx-plus"></i> Add CCTV
+                                </button>
+                            </a>
+                            <a href="{% url 'Infrastructure:deviceNvrInfo' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card crm-widget">
+                            <div class="card-body p-0">
+                                <div class="row row-cols-xxl-4 row-cols-md-4 row-cols-1 g-0">
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">Branch
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class=" bx bx-buildings fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span
+                                                            class="text">{{ nvrDetail.selectBranch }}</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">Manufacturer</h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class=" bx bx-cube-alt fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span
+                                                            class="text">{{ nvrDetail.selectManufacturer }}</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">Name</h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class=" ri-server-line fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h4 class="mb-0"><span class="text">{{ nvrDetail.slugName }}</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col">
+                                        <div class="py-4 px-3">
+                                            <h5 class="text-muted text-uppercase fs-13 mb-3">Status
+                                            </h5>
+                                            <div class="d-flex">
+
+                                                <div class="flex-grow-1 ms-3">
+                                                    {% if nvrDetail.status %}
+                                                        <button class="btn btn-soft-success">Online</button>
+                                                    {% else %}
+                                                        <button class="btn btn-soft-danger">Offline</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Camera's</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for cctv in cctvDetail %}
+                        <div class="col-xl-3">
+                            <div class="card ribbon-box right overflow-hidden">
+                                <div class="card-body text-center p-4">
+                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
+                                            class="bx bx-cctv text-white align-bottom"></i> <span
+                                            class="trending-ribbon-text">{{ cctv.selectTag }}</span></div>
+                                    <h5 class="mb-1 mt-4"><a href="#" class="link-primary">{{ cctv.slugName }}</a></h5>
+                                    <div class="d-flex align-items-center">
+                                        {% if request.tenant.cloudRecording %}
+                                            {% if cctv.recordingStatus %}
+                                                <a href="{% url 'Infrastructure:recordingStartAndStop' nvrDetail.id cctv.id %}"
+                                                   class="m-2 btn btn-soft-danger btn-sm w-100">Stop Recording</a>
+                                            {% else %}
+                                                <a href="{% url 'Infrastructure:recordingStartAndStop' nvrDetail.id cctv.id %}"
+                                                   class="m-2 btn btn-soft-success btn-sm w-100">Start Recording</a>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if cctv.hlsCreated %}
+                                            <a href="{% url 'Infrastructure:pushRtspAndStart' nvrDetail.id cctv.id %}"
+                                               class="m-2 btn btn-soft-danger btn-sm w-100">Deactivate</a>
+                                        {% else %}
+                                            <a href="{% url 'Infrastructure:pushRtspAndStart' nvrDetail.id cctv.id %}"
+                                               class="m-2 btn btn-soft-success btn-sm w-100">Activate</a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mt-4 d-flex align-items-center">
+                                        <a href="{% url 'Infrastructure:streamCamera' nvrDetail.id cctv.id %}"
+                                           class="m-2 btn btn-primary w-100">Stream</a>
+                                        <a href="{% url 'Infrastructure:cctvUpdate' nvrDetail.id cctv.id %}"
+                                           class="m-2 btn btn-warning w-100">Update</a>
+                                        <a href="{% url 'Infrastructure:cctvDelete' nvrDetail.id cctv.id %}"
+                                           class="m-2 btn btn-danger w-100">Delete</a>
+                                    </div>
+                                    {% if request.tenant.cloudRecording %}
+                                        <div class="mt-4 d-flex align-items-center">
+                                            <a href="{% url 'Infrastructure:streamVod' nvrDetail.id cctv.id %}"
+                                               class="m-2 btn btn-outline-info w-100">VODs</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+
+{% endblock extra_js %}

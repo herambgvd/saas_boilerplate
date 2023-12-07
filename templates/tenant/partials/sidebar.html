@@ -1,0 +1,277 @@
+{% load static %}
+{% block sidebar %}
+    <!-- ========== App Menu ========== -->
+    <div class="app-menu navbar-menu">
+        <!-- LOGO -->
+        <div class="navbar-brand-box">
+            <!-- Dark Logo-->
+            <a href="#" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+                <span class="logo-lg">
+                        <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+            </a>
+            <!-- Light Logo-->
+            <a href="#" class="logo logo-light">
+                    <span class="logo-sm">
+                         <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+                <span class="logo-lg">
+                         <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+            </a>
+            <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
+                <i class="ri-record-circle-line"></i>
+            </button>
+        </div>
+
+        <div id="scrollbar">
+            <div class="container-fluid">
+
+                <div id="two-column-menu">
+                </div>
+                <ul class="navbar-nav" id="navbar-nav">
+                    <!-- ########## Dashboard  ########## -->
+                    <li class="menu-title"><span data-key="t-main">Main</span></li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="sidebarDashboards">
+                            <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarDashboards">
+                            <ul class="nav nav-sm flex-column">
+                                {% if request.tenant.neubit %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'tenantHome:dashboard' %}" class="nav-link" data-key="t-main">
+                                            IOC </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.tenant.clarify %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'tenantHome:aiDashboard' %}" class="nav-link" data-key="t-ai">
+                                            AI </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.tenant.iot %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'tenantHome:iotDashboard' %}" class="nav-link" data-key="t-iot">
+                                            IOT </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.tenant.bms %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'tenantHome:bmsDashboard' %}" class="nav-link" data-key="t-bms">
+                                            BMS </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- ########## End Dashboard  ########## -->
+                    <!-- ########## Neubit Menu ########## -->
+                    {% if request.tenant.neubit %}
+                        <li class="menu-title"><span data-key="t-menu">Neubit</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarInfrastructure" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="false" aria-controls="sidebarInfrastructure">
+                                <i class=" ri-building-line"></i> <span
+                                    data-key="t-infrastructure">Infrastructure</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarInfrastructure">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{% url 'Infrastructure:devicePanelInfo' %}" class="nav-link"
+                                           data-key="t-panel">Intrusion</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'Infrastructure:deviceNvrInfo' %}" class="nav-link"
+                                           data-key="t-nvr">NVR</a>
+                                    </li>
+                                    {% if request.tenant.iot %}
+                                        <li class="nav-item">
+                                            <a href="{% url 'Infrastructure:iotDeviceList' %}" class="nav-link"
+                                               data-key="t-iot">IOT</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarMonitoring" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="false" aria-controls="sidebarMonitoring">
+                                <i class="ri-mac-line"></i> <span data-key="t-monitoring">Monitoring</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarMonitoring">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="#streaming" class="nav-link" data-bs-toggle="collapse"
+                                           role="button" aria-expanded="false" aria-controls="sidebarAccount"
+                                           data-key="t-stream">
+                                            Streaming
+                                        </a>
+                                        <div class="collapse menu-dropdown" id="streaming">
+                                            <ul class="nav nav-sm flex-column">
+                                                <li class="nav-item">
+                                                    <a href="{% url 'Monitoring:tagListStream' %}"
+                                                       class="nav-link" data-key="t-dynamic">Dynamic</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{% url 'Monitoring:branchList' %}"
+                                                       class="nav-link" data-key="t-branch">Branch</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#" class="nav-link"
+                                                       data-key="t-playback">Playback</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    {% if request.tenant.iot %}
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="t-iot">IOT</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- Surveillance -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarSurveillance" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="false" aria-controls="sidebarSurveillance">
+                                <i class="ri-router-line"></i> <span data-key="t-surveillance">Surveillance</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarSurveillance">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="#demoAlert" class="nav-link" data-bs-toggle="collapse"
+                                           role="button" aria-expanded="false" aria-controls="sidebarAccount"
+                                           data-key="t-demo">
+                                            Demo Alerts
+                                        </a>
+                                        <div class="collapse menu-dropdown" id="demoAlert">
+                                            <ul class="nav nav-sm flex-column">
+                                                <li class="nav-item">
+                                                    <a href="{% url 'Surveillance:test-alert-ack-list' %}"
+                                                       class="nav-link" data-key="t-test">Test Alerts</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{% url 'Surveillance:testAlertsHistory' %}"
+                                                       class="nav-link" data-key="t-history">History</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{% url 'Surveillance:test-alert-list' %}" class="nav-link"
+                                                       data-key="t-config">Config</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-panel">Intrusion Alerts</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-nvr">NVR Alerts</a>
+                                    </li>
+                                    {% if request.tenant.bms %}
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" data-key="t-bms">BMS Alerts</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                    <!-- ########## End Neubit Menu  ##########-->
+                    <!-- ########## Clarify Menu  ########## -->
+                    {% if request.tenant.clarify %}
+                        <li class="menu-title"><span data-key="t-menu">Clarify</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{% url 'Marketplace:marketplace' %}">
+                                <i class="bx bxs-shopping-bags"></i> <span data-key="t-widgets">Marketplace</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{% url 'Marketplace:branch' %}">
+                                <i class="bx bx-building-house"></i> <span data-key="t-widgets">Assets</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{% url 'AI-Alert:inferenceList' %}">
+                                <i class="bx bxs-bell-ring"></i> <span data-key="t-widgets">Alerts</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <!-- ##########  End Clarify Menu  ########## -->
+                    <li class="menu-title"><span data-key="t-menu">Business Settings</span></li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarSettings" data-bs-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="sidebarSettings">
+                            <i class="bx bxs-cog"></i> <span data-key="t-settings">Settings</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarSettings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{% url 'Branch:branch' %}" class="nav-link" data-key="t-branch">
+                                        Assets Config </a>
+                                </li>
+                                {% if request.tenant.neubit %}
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-license">
+                                            IOC License </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'Infrastructure:allTag' %}" class="nav-link" data-key="t-tag">
+                                            Location Tags </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.tenant.iot %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'Infrastructure:iotGatewayList' %}" class="nav-link"
+                                           data-key="t-iotConfig">
+                                            IOT Config </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.tenant.clarify %}
+                                    <li class="nav-item">
+                                        <a href="{% url 'Branch:license' %}" class="nav-link" data-key="t-aiLicense">
+                                            AI License </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="sidebarUser">
+                            <i class="bx bxs-user"></i> <span data-key="t-settings">Staffs</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarUser">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{% url 'Staff:groups' %}" class="nav-link" data-key="t-group">
+                                        Groups </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'Staff:user_list' %}" class="nav-link" data-key="t-user">
+                                        User </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar -->
+        </div>
+        <div class="sidebar-background"></div>
+    </div>
+    <!-- Left Sidebar End -->
+    <!-- Vertical Overlay-->
+    <div class="vertical-overlay"></div>
+{% endblock sidebar %}
+    

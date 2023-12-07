@@ -1,0 +1,76 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Branch{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Branch" title="Branch" subtitle="Config" %}
+                {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Branch:branch_create' %}">
+                                <button type="button" class="btn btn-success">
+                                    <i class="bx bx-plus"></i> Create Branch
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for branch in branchAll %}
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="avatar-sm mx-auto mb-4 mt-1">
+                                    <div class="avatar-sm mb-3">
+                                        <div class="avatar-title bg-primary-subtle text-primary fs-17 rounded">
+                                            <i class="bx bx-building-house"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="font-size-15 mb-1">
+                                    <a href="javascript: void(0);" class="text-body">{{ branch.branchName }}</a>
+                                </h5>
+                                <p class="card-text"><small class="text-muted">{{ branch.city }}</small></p>
+                                <div class="row">
+                                    <div class="col mb-2">
+                                        <a href="{% url 'Branch:branch_update' branch.id %}">
+                                            <button type="button" class="btn btn-sm btn-warning"> Update
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="col mb-2">
+                                        <a href="{% url 'Branch:branch_delete' branch.id %}">
+                                            <button type="button" class="btn btn-sm btn-danger"> Delete
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> <!-- end row-->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

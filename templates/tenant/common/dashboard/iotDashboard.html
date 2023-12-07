@@ -1,0 +1,285 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}IOT Dashboard{% endblock title %}
+{% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet'/>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="IOT Dashboard" title="IOT Dashboard" subtitle="IOT" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Gateway</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold"><span
+                                                        class="people-in"></span></h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                               <i class="ri-server-line fs-3 text-info"></i>
+                                                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end Gateway -->
+                            <div class="col">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Sensor</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold"><span
+                                                        class="people-out"></span>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                        <i class="ri-sensor-line fs-3 text-info"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end Sensor -->
+                        </div>
+                        <div class="row">
+                            <!-- Total Alerts -->
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">Total Alerts</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="spinner-grow text-primary" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h4 class="mb-0"><span id="total-count">100</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Open Alerts -->
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">Open Alerts</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="spinner-grow text-warning" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h4 class="mb-0"><span id="open-count">100</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Pending Alerts -->
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">Pending Alerts</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="spinner-grow text-danger" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h4 class="mb-0"><span id="pending-count">100</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Close Alerts -->
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="text text-muted">Closed Alerts</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="spinner-grow text-success" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h4 class="mb-0"><span id="close-count">100</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card" id="dashboard">
+                            <div class="card-header">
+                                <span class="text text-muted">Locations</span>
+                            </div>
+                            <div class="card-body" id='map' style='width: 100%; height: 350px;'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sensor Groups with Devices List -->
+                <div class="row">
+                    {% for sensor_type, devices in sensor_groups.items %}
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="text text-muted">{{ sensor_type }}&nbsp; Sensor</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                            <thead class="table-light">
+                                            <tr class="text-muted">
+                                                <th scope="col">Branch</th>
+                                                <th scope="col" style="width: 20%;">Name</th>
+                                                <th scope="col">Location</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if devices %}
+                                                {% for device in devices %}
+                                                    <tr>
+                                                        <td>{{ device.selectBranch }}</td>
+                                                        <td>{{ device.name }}</td>
+                                                        <td>{{ device.selectTag }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td></td>
+                                                    <td>No {{ sensor_type }} sensors found.</td>
+                                                    <td></td>
+                                                </tr>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <!-- End Sensor Groups with Devices List -->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <!-- Branch Count and Map -->
+    <script type="text/javascript">
+        let dashboardBaseUrl = "{% url 'tenantHome:iotBranchDashboard' 'PLACEHOLDER' %}";
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Plot Branch on Map
+            mapboxgl.accessToken = 'pk.eyJ1IjoiaGVyYW1ibSIsImEiOiJja3lsZjNwcnUyb240MnVxaGZ2Y2w1Y2lpIn0.CEsnNMuTnZJsBb0WaZIz4w';
+            $.ajax({
+                url: '{% url "tenantHome:get_branch_map" %}',
+                method: 'GET',
+                success: function (data) {
+                    if (data.branches && data.branches.length > 0) {
+                        const firstBranch = data.branches[0];
+                        const map = new mapboxgl.Map({
+                            container: 'map',
+                            style: 'mapbox://styles/herambm/ckylha7inarjn15pcnih3hz4j',
+                            center: [firstBranch.longitude, firstBranch.latitude], // Use the first branch's coordinates as the center
+                            zoom: 3
+                        });
+
+                        map.addControl(new mapboxgl.NavigationControl());
+
+                        data.branches.forEach(branch => {
+                            const branchId = branch.id
+                            console.log(branchId)
+                            const marker = new mapboxgl.Marker()
+                                .setLngLat([branch.longitude, branch.latitude])
+                                .addTo(map);
+
+                            let dashboardUrl = dashboardBaseUrl.replace('PLACEHOLDER', branchId);
+
+                            const popup = new mapboxgl.Popup({offset: 25})
+                                .setHTML(`
+                                            <span class="text-dark">${branch.name}
+                                            <p>${branch.address}</p>
+                                            <a href="${dashboardUrl}">
+                                                   <button class="btn btn-success btn-sm" type="button">Dashboard</button>
+                                            </a>
+                                            <!-- Add more information as needed -->
+                                        `);
+
+                            marker.setPopup(popup);
+                        });
+                    } else {
+                        console.error('No branches available');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error fetching data', error);
+                }
+            });
+            // Demo Alert Data
+            {#$.ajax({#}
+            {#    url: '{% url "tenantHome:get_demo_alert_data" %}',#}
+            {#    method: 'GET',#}
+            {#    success: function (data) {#}
+            {#        $('#demo-total-count').text(data.totalAlerts);#}
+            {#        $('#demo-pending-count').text(data.pendingAlerts);#}
+            {#        $('#demo-open-count').text(data.openAlerts);#}
+            {#        $('#demo-close-count').text(data.closeAlerts);#}
+            {#    },#}
+            {#    error: function (error) {#}
+            {#        console.error('Error fetching data', error);#}
+            {#    }#}
+            // );
+
+        });
+    </script>
+
+{% endblock extra_js %}

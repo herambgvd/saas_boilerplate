@@ -1,0 +1,113 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Tag Streaming{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Tag Streaming" title="Tag Streaming" subtitle="Monitoring" %}
+                {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Monitoring:tagListStream' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Camera List</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0 pt-2">
+                                    {% for camera in allCamera %}
+                                        <li>
+                                            <div class="flex-shrink-0 m-2 cctv-item" draggable="true"
+                                                 id="cctv{{ forloop.counter }}"
+                                                 data-url="{{ camera.hlsLink }}"
+                                                 ondragstart="drag(event)">
+                                                <h5 class="fs-13 mb-1 text-truncate">{{ forloop.counter }}.&nbsp;{{ camera.slugName }}
+                                                </h5>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Streaming</span>
+                            </div>
+                            <div class="card-body">
+                                <!-- Video Pane -->
+                                {% for cam in allCamera %}
+                                    <video src="" width="367px" height="auto" controls ondrop="drop(event)"
+                                           ondragover="allowDrop(event)"></video>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.dataset.url);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            let data = event.dataTransfer.getData("text");
+            let video = event.target;
+
+            if (Hls.isSupported()) {
+                let hls = new Hls();
+                hls.loadSource(data);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = data;
+                video.addEventListener('loadedmetadata', function () {
+                    video.play();
+                });
+            }
+        }
+
+    </script>
+{% endblock extra_js %}

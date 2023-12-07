@@ -1,0 +1,76 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Stream Camera{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Infrastructure" title="Stream" subtitle="CCTV" %}
+                {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Infrastructure:nvrDetails' nvrId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Live Streaming</span>
+                            </div>
+                            <div class="card-body">
+                                <video id="video" width="100%" height="auto" controls></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <script>
+        let video = document.getElementById('video');
+        if (Hls.isSupported()) {
+            let hls = new Hls({debug: true,});
+            hls.loadSource('{{ camera.hlsLink }}');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                video.muted = true;
+                video.play();
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = '{{ hls.hlsLink }}';
+            video.addEventListener('canplay', function () {
+                video.play();
+            });
+        }
+    </script>
+
+{% endblock extra_js %}

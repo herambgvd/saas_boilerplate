@@ -1,0 +1,130 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}Marketplace{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Inference" title="Video Inference" subtitle="Video" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Marketplace:marketplace_files_list' modelId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i>Back To Manager
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- end row-->
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Original Video</span>
+                            </div>
+                            <div class="card-body">
+                                <video src="{{ file.fileName.url }}" controls width="100%"></video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">Inference Video</span>
+                            </div>
+
+                            <div class="card-body" id="analysedVideo">
+                                <div id="loader" class="spinner-border text-primary" role="status"
+                                     style="display: block;">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <video id="inferenceVideo" src="#" controls width="100%" style="display: none;"></video>
+                                <div id="noResponseMessage" style="display: none;">AI Server Not given response</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Set a flag to track whether the timer has completed
+        let timerCompleted = false;
+
+        // Function to handle the AJAX request
+        function makeAjaxRequest() {
+            if (timerCompleted) {
+                // Timer has completed, make the AJAX request
+                const videoId = '{{ file.id }}';  // Replace with actual video_id
+
+                // Make an AJAX request to get the mp4 URL
+                $.ajax({
+                    url: '{{ apiServer }}',
+                    type: 'GET',
+                    data: {video_id: videoId},
+                    success: function (data) {
+                        console.log(data);  // Log the received data to the console
+
+                        // Hide the loader
+                        $('#loader').hide();
+
+                        if (data.analysed_video_path) {
+                            // Update the src attribute of the video tag and show it
+                            const videoElement = $('#inferenceVideo');
+                            videoElement.attr('src', data.analysed_video_path);
+                            videoElement.show();  // Ensure the video tag is made visible
+                        } else {
+                            // Show the error message
+                            $('#noResponseMessage').show();
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+
+                        // Hide the loader
+                        $('#loader').hide();
+
+                        // Show the error message
+                        $('#noResponseMessage').show();
+                    }
+                });
+            } else {
+                // Timer has not completed, wait and call the function again
+                setTimeout(makeAjaxRequest, 100); // Wait for 100 milliseconds before trying again
+            }
+        }
+
+        // Start the timer for 3 seconds
+        setTimeout(function () {
+            // Set the timerCompleted flag to true
+            timerCompleted = true;
+
+            // Call the AJAX request function
+            makeAjaxRequest();
+        }, 3000);
+    </script>
+{% endblock extra_js %}
+

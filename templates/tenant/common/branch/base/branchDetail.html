@@ -1,0 +1,106 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    {{ branch_instance.branchName }} Branch
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'libs/toastr/build/toastr.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">{{ branch_instance.branchName }}</h4>
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Clarify</a></li>
+                                    <li class="breadcrumb-item active">Branch</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Branch:branch_asset_create' branch_instance.id %}">
+                                <button type="button" class="btn btn-success">
+                                    <i class="bx bx-plus"></i> Create Live Inference
+                                </button>
+                            </a>
+                            <a href="{% url 'Branch:branch' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                {% block contents %}
+                    <!-- Branch Data -->
+                    <div class="row">
+                        {% for asset in assets_instance %}
+                            <div class="col-md-3">
+                                <div class="card shadow-none border">
+                                    <div class="card-body ">
+                                        <div class="avatar-xs ">
+                                            <div class="avatar-title bg-transparent rounded">
+                                                <i class="mdi mdi-play-circle-outline font-size-24 text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="overflow-hidden me-auto">
+                                                <h3 class="font-size-16 text-truncate mb-1"><a
+                                                        href="javascript: void(0);"
+                                                        class="text-body">{{ asset.name }}</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% for model in asset.tagModel.all %}
+                                                <div class="col-md-3 m-2">
+                                                    <a href="{% url 'Branch:branch_inference' branch_instance.id  asset.id model.id %}">
+                                                        <span class="font-size-14 badge badge-soft-info">{{ model.name }}</span>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="row mt-2">
+                                            <span class="text text-muted">Uploaded at: &nbsp {{ asset.created_at }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        {#                                        <a href="{% url 'Branch:branch_inference' branch_instance.id  asset.id %}">#}
+                                        {#                                            <button class="btn btn-outline-success btn-sm">Start Inference</button>#}
+                                        {#                                        </a>#}
+                                        <a href="{% url 'Branch:branch_asset_update' branch_instance.id asset.id %}">
+                                            <button class="btn btn-outline-warning btn-sm">Update</button>
+                                        </a>
+                                        <a href="{% url 'Branch:branch_asset_delete'  branch_instance.id  asset.id %}">
+                                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+            </div>
+            <!-- container-fluid -->
+        </div>
+    </div>
+{% endblock %}
+{% block extra_javascript %}
+{% endblock %}
+{% block footer %}
+    {% include 'partials/footer.html' %}
+
+{% endblock %}

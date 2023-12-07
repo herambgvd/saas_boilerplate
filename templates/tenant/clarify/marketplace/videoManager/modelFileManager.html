@@ -1,0 +1,121 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}{{ modelName.name }} File Manager{% endblock title %}
+{% block extra_css %}
+    <style>
+        .heartbeat {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                opacity: .5;
+                transform: translateY(-50%) scale(.75);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+        }
+    </style>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="File Manager" title="File Manager" subtitle="Marketplace" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Marketplace:marketplace_files_create' modelId %}">
+                                <button type="button" class="btn btn-success">
+                                    <i class="bx bx-cloud-upload"></i> Upload Video File
+                                </button>
+                            </a>
+                            <a href="{% url 'Marketplace:marketplace' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Marketplace
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for file in files %}
+                        <div class="col-xl-3">
+                            <div class="card ribbon-box right overflow-hidden">
+                                <div class="card-body text-center p-4">
+                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                                        <i class="ri-play-circle-line text-white align-bottom"></i>
+                                        <span class="trending-ribbon-text">{{ file.selectMarketplace.name }}</span>
+                                    </div>
+                                    <h5 class="mb-1 mt-4">
+                                        <div style="display: inline-block; position: relative;">
+                                            {% if file.status %}
+                                                <div class="heartbeat" style="background-color:lawngreen"></div>
+                                            {% else %}
+                                                <div class="heartbeat" style="background-color:yellow"></div>
+                                            {% endif %}
+                                            <a href="#" class="link-primary"
+                                               style="position: relative; z-index: 1;">{{ file.name }}</a>
+                                        </div>
+                                    </h5>
+                                    <div class="d-flex align-items-center">
+                                        <a href="#"
+                                           class="m-2 btn btn-soft-danger btn-sm w-100">{{ file.fileSize|floatformat:2 }}&nbsp;MB</a>
+                                        <a href="#" class="m-2 btn btn-soft-danger btn-sm w-100"> Uploaded at:
+                                            &nbsp;{{ file.created_at }}</a>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <a href="{% url 'Marketplace:streamingInference' file.id file.selectMarketplace %}"
+                                           class="m-2 btn btn-outline-info btn-sm w-100">
+                                            Inference
+                                        </a>
+                                        <a href="{% url 'Marketplace:marketplace_files_update' modelId file.id %}"
+                                           class="m-2 btn btn-outline-warning btn-sm w-100">
+                                            Update
+                                        </a>
+                                        <a href="{% url 'Marketplace:marketplace_files_delete' modelId file.id %}"
+                                           class="m-2 btn btn-outline-danger btn-sm w-100">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

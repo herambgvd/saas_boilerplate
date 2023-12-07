@@ -1,0 +1,67 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}{{ modelName.name }} File Upload{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="File Upload" title="File Upload" subtitle="Manager" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Marketplace:marketplace_files_list' modelId %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Manager
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data"
+                                      action="{% url 'Marketplace:marketplace_files_create' modelId %}">
+                                    {% csrf_token %}
+                                    <div class="row m-4">
+                                        <label class="label">Name of File</label>
+                                        {% render_field form.name class="form-control" %}
+                                    </div>
+                                    <div class="row m-4">
+                                        <label class="label">Upload Video</label>
+                                        {% render_field form.fileName class="form-control" %}
+                                    </div>
+                                    <div class="row m-4">
+                                        <button type="submit" class="btn btn-success ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

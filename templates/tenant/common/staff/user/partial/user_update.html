@@ -1,0 +1,97 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}User{% endblock title %}
+{% block extra_css %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="User" title="User Update" subtitle="Update" %}
+                {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Staff:user_list' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-center m-2">
+                    <div class="col-md-10">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" action="#">
+                                    {% csrf_token %}
+                                    {{ form.media.js }}
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label class="label">Username</label>
+                                            {% render_field form.username class="form-control" %}
+                                        </div>
+                                        <div class="col">
+                                            <label class="label">First Name</label>
+                                            {% render_field form.first_name class="form-control" %}
+                                        </div>
+                                        <div class="col">
+                                            <label class="label">Last Name</label>
+                                            {% render_field form.last_name class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col-md-4">
+                                            <label class="label">Email</label>
+                                            {% render_field form.email class="form-control" %}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="label">Active</label>
+                                            {% render_field form.is_active class="form-check-input" %}
+                                        </div>
+                                        <div class="col">
+                                            <label class="label">Groups</label>
+                                            {% render_field form.groups class="form-control js-example-basic-multiple" multiple="multiple" data-placeholder="Choose Groups" %}
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end row-->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <!--jquery cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--select2 cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="{% static 'js/pages/select2.init.js' %}"></script>
+{% endblock extra_js %}

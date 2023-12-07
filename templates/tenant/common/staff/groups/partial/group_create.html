@@ -1,0 +1,86 @@
+{% extends "tenant/partials/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}Group{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="Group" title="Group" subtitle="Create" %}
+                {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Staff:groups' %}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="card m-2">
+                            <div class="card-header">
+                                <span class="text-muted">Group Name</span>
+                            </div>
+                            <div class="card-body">
+                                {% render_field form.name class="form-control" %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Group permissions by content type (app name) -->
+                            {% for app_name, perms in grouped_permissions.items %}
+                                <div class="col-md-4">
+                                    <div class="card m-2">
+                                        <div class="card-header">
+                                            <span class="text text-muted">{{ app_name|upper }}</span>
+                                        </div>
+                                        <div class="card-body">
+                                            {% for perm in perms %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           name="{{ form.permissions.name }}" value="{{ perm.id }}"
+                                                           id="perm_{{ perm.id }}"
+                                                            {% if perm in form.permissions.value %} checked {% endif %}>
+                                                    <label class="form-check-label" for="perm_{{ perm.id }}">
+                                                        {{ perm.name }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row m-2">
+                            <button type="submit" class="btn btn-success ">Submit</button>
+                        </div>
+                    </form>
+                </div> <!-- end row-->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

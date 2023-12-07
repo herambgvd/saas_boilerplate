@@ -1,0 +1,35 @@
+{% extends "public/partials/base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "public/partials/page-title.html" with pagetitle="Dashboard" title="Dashboard" subtitle="Main" %}
+                {% endblock pagetitle %}
+
+                <div class="row">
+
+                </div> <!-- end row-->
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "public/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}
