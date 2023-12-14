@@ -112,51 +112,22 @@
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }}  - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div>
-                                                                        <p class="fw-medium text-muted mb-0">
-                                                                            Temperature</p>
-                                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                                id="{{ device.name }}-temperature"></span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                               <i class="ri-temp-hot-line fs-3 text-info"></i>
-                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <div id="temperature-gauge" class="e-charts"></div>
                                                             </div><!-- end card body -->
                                                         </div> <!-- end card-->
                                                     </div> <!-- end temperature -->
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }} - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div>
-                                                                        <p class="fw-medium text-muted mb-0">
-                                                                            Humidity</p>
-                                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                                id="{{ device.name }}-humidity"></span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div class="avatar-sm flex-shrink-0">
-                                                           <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i class="ri-water-flash-line fs-3 text-info"></i>
-                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <div id="humidity-gauge" class="e-charts"></div>
                                                             </div><!-- end card body -->
+
                                                         </div> <!-- end card-->
                                                     </div> <!-- end humidity -->
                                                 </div>
@@ -164,50 +135,22 @@
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }}  - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div>
-                                                                        <p class="fw-medium text-muted mb-0">
-                                                                            Pressure</p>
-                                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                                id="{{ device.name }}-pressure"></span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div class="avatar-sm flex-shrink-0">
-                                                           <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i class="mdi mdi-gauge fs-3 text-info"></i>
-                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <div id="pressure-gauge" class="e-charts"></div>
                                                             </div><!-- end card body -->
                                                         </div> <!-- end card-->
                                                     </div> <!-- end Pressure -->
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }}  - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div>
-                                                                        <p class="fw-medium text-muted mb-0">Light</p>
-                                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                                                id="{{ device.name }}-light"></span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div class="avatar-sm flex-shrink-0">
-                                                           <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i class=" ri-lightbulb-flash-line fs-3 text-info"></i>
-                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <div id="light-gauge" class="e-charts"></div>
                                                             </div><!-- end card body -->
+
                                                         </div> <!-- end card-->
                                                     </div> <!-- end Light-->
                                                 </div>
@@ -216,20 +159,20 @@
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }}  - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div id="co2-gauge"></div>
+                                                                <div id="co2-gauge" class="e-charts"></div>
                                                             </div>
                                                         </div>
                                                     </div> <!-- CO2 Chart -->
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <span class="text text-muted">{{ device.name }} - {{ device.selectTag }}</span>
+                                                                <span class="text text-muted">{{ device.name }}  - {{ device.description }} - {{ device.selectTag }}</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div id="pm25-gauge"></div>
+                                                                <div id="pm25-gauge" class="e-charts"></div>
                                                             </div>
                                                         </div>
                                                     </div> <!-- PM2.5 Chart -->
@@ -274,7 +217,7 @@
                                             <div>
                                                 <p class="fw-medium text-muted mb-0">People In</p>
                                                 <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                        class="people-in"></span></h2>
+                                                        class="text" id="VS121-people-in">12</span></h2>
                                             </div>
                                             <div>
                                                 <div class="avatar-sm flex-shrink-0">
@@ -294,7 +237,7 @@
                                             <div>
                                                 <p class="fw-medium text-muted mb-0">People Out</p>
                                                 <h2 class="mt-4 ff-secondary fw-semibold"><span
-                                                        class="people-out"></span>
+                                                        class="text" id="VS121-people-out">10</span>
                                                 </h2>
                                             </div>
                                             <div>
@@ -310,11 +253,8 @@
                             </div> <!-- end People Out -->
                         </div>
                         <!-- End People Counting -->
-
                     </div>
                 </div>
-
-
             </div>
             <!-- container-fluid -->
         </div>
@@ -327,8 +267,213 @@
     <!-- end main content-->
 {% endblock content %}
 {% block extra_js %}
+    <!-- echarts js -->
+    <script src="{% static 'libs/echarts/dist/echarts.min.js' %}"></script>
+    {#    <script src="{% static 'libs/chart.js/dist/chart.umd.js' %}"></script>#}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.js" type="text/javascript"></script>
-    {#    <script src="{% static 'js/mqttWork/mqttService.js' %}"></script>#}
+    <script src="{% static 'js/mqttWork/mqttService.js' %}"></script>
+    <script>
+        let temperatureChartDom = document.getElementById('temperature-gauge');
+        let temperatureChart = echarts.init(temperatureChartDom);
+        let temperatureOption;
+        temperatureOption = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'Temperature',
+                    type: 'gauge',
+                    min: 200,
+                    max: 1500,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 450, name: 'Temperature'}]
+                }
+            ]
+        };
+        temperatureChart.setOption(temperatureOption);
+        <!--End Humidity -->
+        let humidityChartDom = document.getElementById('humidity-gauge');
+        let humidityChart = echarts.init(humidityChartDom);
+        let humidityOption;
+        humidityOption = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'Humidity',
+                    type: 'gauge',
+                    min: 200,
+                    max: 1500,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 450, name: 'Humidity'}]
+                }
+            ]
+        };
+        humidityChart.setOption(humidityOption);
+        <!--End Humidity -->
+        let lightChartDom = document.getElementById('light-gauge');
+        let lightChart = echarts.init(lightChartDom);
+        let lightOption;
+        lightOption = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'Light',
+                    type: 'gauge',
+                    min: 200,
+                    max: 1500,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 450, name: 'Light'}]
+                }
+            ]
+        };
+        lightChart.setOption(lightOption);
+        <!--End Light -->
+        let pressureChartDom = document.getElementById('pressure-gauge');
+        let pressureChart = echarts.init(pressureChartDom);
+        let pressureOption;
+        pressureOption = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'Pressure',
+                    type: 'gauge',
+                    min: 200,
+                    max: 1500,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 450, name: 'Pressure(in PPM)'}]
+                }
+            ]
+        };
+        pressureChart.setOption(pressureOption);
+        <!--End Pressure -->
+        let pm2ChartDom = document.getElementById('pm25-gauge');
+        let pm2Chart = echarts.init(pm2ChartDom);
+        let pm2option;
+        pm2option = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'PM 2.5',
+                    type: 'gauge',
+                    min: 0,
+                    max: 1000,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 50, name: 'PM 2.5'}]
+                }
+            ]
+        };
+        pm2Chart.setOption(pm2option);
+        <!--End PM25-->
+        <!--CO2-->
+        let co2chartDom = document.getElementById('co2-gauge');
+        let co2Chart = echarts.init(co2chartDom);
+        let co2option;
+        co2option = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            series: [
+                {
+                    name: 'CO2',
+                    type: 'gauge',
+                    min: 200,
+                    max: 1500,
+                    splitNumber: 5,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10,
+                            color: [
+                                [0.2, '#ff4500'], // 0 - 200
+                                [0.4, '#ff8c00'], // 201 - 400
+                                [0.6, '#ffd700'], // 401 - 600
+                                [0.8, '#90ee90'], // 601 - 800
+                                [1, '#00ced1']   // 801 - 1000
+                            ]
+                        }
+                    },
+                    detail: {formatter: '{value}'},
+                    data: [{value: 450, name: 'CO2(in PPM)'}]
+                }
+            ]
+        };
+        co2Chart.setOption(co2option);
+        <!--End CO2 -->
+    </script>
+    <!-- End Chart js -->
     <script src="{% static 'js/image-map-pro.min.js' %}"></script>
     <script>ImageMapPro.init('#image-map-pro', {
         "id": "2acb0292-81f5-4a77-8740-bd81e5342c29",
@@ -427,3 +572,14 @@
         }], "version": "6.0.15", "general": {"name": "Untitled"}
     })</script>
 {% endblock extra_js %}
+
+
+
+{# <div class="col-md-8 d-flex align-items-stretch">#}
+{#                        <div class="card w-100">#}
+{#                            <div class="card-body d-flex justify-content-center align-items-center"#}
+{#                                 style="height: 100%;">#}
+{#                                <h1 class="text" id="clock"></h1>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div> <!-- Current Time -->#}

@@ -1,0 +1,289 @@
+{% extends "tenant/partials/base.html" %}
+{% load static %}
+{% block title %}IOT Dashboard{% endblock title %}
+{% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock extra_css %}
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                {% block pagetitle %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="IOT Dashboard" title="IOT Dashboard" subtitle="IOT" %}
+                {% endblock pagetitle %}
+                <!-- Connection Status and Analysis Chart -->
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <button type="button" id="mqttButton" class="btn btn-outline-danger btn-sm">
+                                Connection Status : <span class="text status">Disconnected</span>
+                            </button>
+                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> Analysis Chart
+                            </button>
+                            <a href="{% url 'tenantHome:iotDashboard' %}">
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="mdi mdi-arrow-left"></i> Back To Main
+                                </button>
+                            </a>
+                            <!-- Analysis Chart -->
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                                 aria-labelledby="offcanvasRightLabel">
+                                <div class="offcanvas-header border-bottom">
+                                    <h5 class="offcanvas-title" id="offcanvasRightLabel">IOT Chart</h5>
+                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body p-0 overflow-hidden">
+                                    <div data-simplebar style="height: calc(100vh - 112px);">
+                                        <div class="acitivity-timeline p-4">
+                                            <div class="acitivity-item d-flex">
+                                                <div class="flex-shrink-0">
+                                                           <span class="avatar-xs rounded-circle acitivity-avatar">
+                                                                <i class="ri-pushpin-2-line fs-3 text-info"></i>
+                                                            </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-1">CO2 Range</h6>
+                                                    <p class="text-muted mb-2">Range of 200 to 1500 ppm</p>
+                                                </div>
+                                            </div>
+                                            <div class="acitivity-item d-flex mt-2">
+                                                <div class="flex-shrink-0">
+                                                    <span class="avatar-xs rounded-circle acitivity-avatar">
+                                                        <i class="ri-pushpin-2-line fs-3 text-danger"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-1">PM2.5 & PM10 </h6>
+                                                    <p class="text-muted mb-2">Range of 0 to 1000 ug/m3</p>
+                                                </div>
+                                            </div>
+                                            <div class="acitivity-item d-flex mt-2">
+                                                <div class="flex-shrink-0">
+                                                    <span class="avatar-xs rounded-circle acitivity-avatar">
+                                                        <i class="ri-pushpin-2-line fs-3 text-success"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-1">Light Levels</h6>
+                                                    <p class="text-muted mb-2">Range of 0 to 1000 ug/m3</p>
+                                                </div>
+                                            </div>
+                                            <div class="acitivity-item d-flex mt-2">
+                                                <div class="flex-shrink-0">
+                                                    <span class="avatar-xs rounded-circle acitivity-avatar">
+                                                        <i class="ri-pushpin-2-line fs-3 text-warning"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-1">TVOC Levels</h6>
+                                                    <p class="text-muted mb-2">Range of 0 to 1000 ug/m3</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Connection Status and Analysis Chart -->
+
+
+                <div class="row">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-pills nav-customs nav-danger mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#border-navs-environment"
+                               role="tab">Environment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#border-navs-smartSpaces"
+                               role="tab">Smart Spaces</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#border-navs-energy"
+                               role="tab">Energy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#border-navs-security"
+                               role="tab">Security</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#border-navs-HVAC"
+                               role="tab">HVAC</a>
+                        </li>
+
+                    </ul>
+                    <!-- End Nav tabs -->
+                </div>
+                <!-- Tab panes -->
+                <div class="row">
+                    <div class="tab-content">
+                        <!-- environment -->
+                        <div class="tab-pane active" id="border-navs-environment" role="tabpanel">
+                            {% include "tenant/common/dashboard/iot/components/environment.html" %}
+                        </div>
+                        <!-- End environment -->
+                        <!-- Smart Spaces -->
+                        <div class="tab-pane" id="border-navs-smartSpaces" role="tabpanel">
+                            {% include "tenant/common/dashboard/iot/components/smartSpaces.html" %}
+                        </div>
+                        <!-- End Smart Spaces -->
+                        <!-- energy -->
+                        <div class="tab-pane" id="border-navs-energy" role="tabpanel">
+                            {#                            {% include "tenant/common/dashboard/iot/components/smartOffice.html" %}#}
+                        </div>
+                        <!-- End energy -->
+                        <!-- security -->
+                        <div class="tab-pane" id="border-navs-security" role="tabpanel">
+                            {#                            {% include "tenant/common/dashboard/iot/components/smartOffice.html" %}#}
+                        </div>
+                        <!-- End security -->
+                        <!-- security -->
+                        <div class="tab-pane" id="border-navs-HVAC" role="tabpanel">
+                            {#                            {% include "tenant/common/dashboard/iot/components/smartOffice.html" %}#}
+                        </div>
+                        <!-- End security -->
+                    </div>
+                </div>
+                <!--End Tab panes -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        {% block footer %}
+            {% include "tenant/partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.js" type="text/javascript"></script>
+    <script src="{% static 'js/mqttWork/mqttService.js' %}"></script>
+    {#    <script>#}
+    {#        function startTime() {#}
+    {#            const today = new Date();#}
+    {#            let h = today.getHours();#}
+    {#            let m = today.getMinutes();#}
+    {#            let s = today.getSeconds();#}
+    {#            m = checkTime(m);#}
+    {#            s = checkTime(s);#}
+    {#            document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;#}
+    {#            setTimeout(startTime, 1000);#}
+    {#        }#}
+    {##}
+    {#        function checkTime(i) {#}
+    {#            if (i < 10) {#}
+    {#                i = "0" + i#}
+    {#            }  // add zero in front of numbers < 10#}
+    {#            return i;#}
+    {#        }#}
+    {##}
+    {#        startTime();#}
+    {#    </script>#}
+    <script src="{% static 'js/image-map-pro.min.js' %}"></script>
+    <script>ImageMapPro.init('#image-map-pro', {
+        "id": "2acb0292-81f5-4a77-8740-bd81e5342c29",
+        "artboards": [{
+            "title": "Airtel Gurgaon",
+            "background_type": "image",
+            "image_url": "{% static 'images/dashboard/iot/airtel.jpeg' %}",
+            "width": 1965,
+            "height": 1134,
+            "use_image_size": true,
+            "children": [
+                {
+                    "id": "3be0e07b-5c30-4c5b-8821-3256c165bff0",
+                    "title": "D-Block",
+                    "type": "poly",
+                    "x": 79.38144329896907,
+                    "y": 47.230633772433826,
+                    "width": 7.525773195876283,
+                    "height": 33.76290578191692,
+                    "default_style": {
+                        "opacity": 0.42567567567567566,
+                        "background_color": "#09c31f",
+                        "background_opacity": 0.17567567567567566,
+                        "stroke_color": "#252222",
+                        "stroke_opacity": 0.5945945945945946
+                    },
+                    "mouseover_style": {"opacity": 0.6148648648648649, "background_color": "#f24545"},
+                    "tooltip_content": [{
+                        "type": "Heading",
+                        "text": "D-Block",
+                        "heading": "h3",
+                        "other": {"id": "", "classes": "", "css": ""},
+                        "style": {
+                            "fontFamily": "sans-serif",
+                            "fontSize": 20.8,
+                            "lineHeight": "normal",
+                            "color": "#ffffff",
+                            "textAlign": "left"
+                        },
+                        "boxModel": {
+                            "width": "auto",
+                            "height": "auto",
+                            "margin": {"top": 0, "bottom": 0, "left": 0, "right": 0},
+                            "padding": {"top": 10, "bottom": 10, "left": 10, "right": 10}
+                        },
+                        "id": "17b02130-4d03-498e-93b0-05206fb6e1f3"
+                    }],
+                    "x_image_background": 79.79381443298969,
+                    "y_image_background": 47.766557403316426,
+                    "points": [{"x": 0, "y": 2.116400913868971}, {
+                        "x": 10.95890410958901,
+                        "y": 98.9417427233744
+                    }, {"x": 71.23287671232875, "y": 98.41264249490723}, {"x": 100, "y": 100}, {
+                        "x": 83.56164383561648,
+                        "y": 4.761902056205178
+                    }, {"x": 57.53424657534249, "y": 0}]
+                },
+                {
+                    "id": "6d9988b7-3b1e-47f9-bcc6-757f10eee65f",
+                    "title": "B-Block",
+                    "type": "poly",
+                    "x": 69.38144329896907,
+                    "y": 37.22682031718759,
+                    "width": 10.721649484536087,
+                    "height": 46.44629902361861,
+                    "tooltip_content": [{
+                        "type": "Heading",
+                        "text": "B-Block",
+                        "heading": "h3",
+                        "other": {"id": "", "classes": "", "css": ""},
+                        "style": {
+                            "fontFamily": "sans-serif",
+                            "fontSize": 20.8,
+                            "lineHeight": "normal",
+                            "color": "#ffffff",
+                            "textAlign": "left"
+                        },
+                        "boxModel": {
+                            "width": "auto",
+                            "height": "auto",
+                            "margin": {"top": 0, "bottom": 0, "left": 0, "right": 0},
+                            "padding": {"top": 10, "bottom": 10, "left": 10, "right": 10}
+                        },
+                        "id": "161e2d51-6c1f-487a-b2c6-526ba4d6766a"
+                    }],
+                    "x_image_background": 69.38144329896907,
+                    "y_image_background": 37.22682031718759,
+                    "points": [{"x": 0, "y": 5.769230769230769}, {
+                        "x": 7.6923076923076925,
+                        "y": 98.07692307692307
+                    }, {"x": 70.1923076923077, "y": 100}, {"x": 100, "y": 98.46153846153847}, {
+                        "x": 94.23076923076923,
+                        "y": 7.6923076923076925
+                    }, {"x": 60.57692307692307, "y": 0}]
+                }]
+        }], "version": "6.0.15", "general": {"name": "Untitled"}
+    })</script>
+{% endblock extra_js %}

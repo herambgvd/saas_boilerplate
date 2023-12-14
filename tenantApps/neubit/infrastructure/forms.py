@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Panel, NVR, CCTV, CameraTag, IotGateway
+from .models import Panel, NVR, CCTV, CameraTag, IotGateway, IotDevice
 
 
 class PanelAddForm(forms.ModelForm):
@@ -32,6 +32,12 @@ class IotGatewayForm(forms.ModelForm):
 	class Meta:
 		model = IotGateway
 		exclude = ['fetchDevice']
+
+
+class IotDeviceForm(forms.ModelForm):
+	class Meta:
+		model = IotDevice
+		fields = '__all__'
 
 
 class NVRUploadForm(forms.Form):

@@ -52,7 +52,7 @@ urlpatterns = [
 
 	# IOT Devices
 	path('devices/list/', iot.iotDeviceList, name='iotDeviceList'),
-	# path('device/iot/', iot.iotGatewayCreate, name='iotGatewayCreate'),
-	# path('device/<str:iotId>/update/', iot.iotGatewayUpdate, name='iotGatewayUpdate'),
-	# path('device/<str:iotId>/delete/', iot.iotGatewayDelete, name='iotGatewayDelete'),
+	path('device/devices/', iot.iotDeviceCreate, name='iotDeviceCreate'),
+	path('device/<str:deviceId>/update/', iot.iotDeviceUpdate, name='iotDeviceUpdate'),
+	path('device/<str:deviceId>/delete/', iot.iotDeviceDelete, name='iotDeviceDelete'),
 ]

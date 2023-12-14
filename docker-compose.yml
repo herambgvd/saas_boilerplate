@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    command: [ "gunicorn", "-b", "0.0.0.0", "-p", "8000", "SaaS_Boilerplate.wsgi:application" ]
+    command: ["daphne", "SaaS_Boilerplate.asgi:application", "--bind", "0.0.0.0", "--port", "8000"]
     volumes:
       - .:/app
     ports:

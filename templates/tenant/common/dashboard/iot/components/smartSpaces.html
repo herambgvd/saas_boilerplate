@@ -1,0 +1,238 @@
+{% load static %}
+<div class="row">
+    <div class="col-md-7">
+        <!-- Building Map -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="{% static 'images/dashboard/iot/smartOffice.png' %}" alt="Smart office"
+                             style="width: 100%;height: auto;display: block;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- People Count Sensor -->
+        <div class="row">
+            {% for count in vs121 %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">{{ count.name }} - {{ count.description }} - {{ count.selectTag }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">People In</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ count.name }}-people-in">0</span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class=" ri-user-shared-2-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end people in -->
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">People Out</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ count.name }}-people-out">0</span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-user-received-2-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end people out -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <!-- Zone Leak Sensor -->
+            {% for zone in em300 %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">{{ zone.name }}  - {{ zone.description }} - {{ zone.selectTag }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Humidity</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ zone.name }}-humidity">
+                                                                {{ zone.latest_reading.humidity|default:"0" }}
+                                                                <small style="font-size: smaller;">%</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-contrast-drop-2-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end humidity -->
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Temperature</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ zone.name }}-temperature">
+                                                                 {{ zone.latest_reading.temperature|default:"0" }}
+                                                                <small style="font-size: smaller;">&#8451;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-temp-cold-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end Temperature -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!--End Odor Sensor -->
+        </div>
+        <div class="row">
+            <!-- Smart Bin Sensor -->
+            {% for bin in em400 %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">{{ bin.name }}  - {{ bin.description }} - {{ bin.selectTag }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Temperature</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ bin.name }}-temperature">
+                                                                 {{ bin.latest_reading.temperature|default:"0" }}
+                                                                <small style="font-size: smaller;">&#8451;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-temp-cold-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end temperature -->
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Position</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ bin.name }}-position">
+                                                                {{ bin.latest_reading.position|default:"Tilt"|capfirst }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-map-pin-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end position -->
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Battery</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ bin.name }}-battery">
+                                                                {{ bin.latest_reading.battery|default:"0" }}
+                                                                <small style="font-size: smaller;">%</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class=" ri-battery-charge-fill text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end Battery -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!--End Odor Sensor -->
+        </div>
+    </div>
+</div>

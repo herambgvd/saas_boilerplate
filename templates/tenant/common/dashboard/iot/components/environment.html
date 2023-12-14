@@ -1,0 +1,401 @@
+{% load static %}
+<div class="row">
+    <div class="col-md-7">
+        <!-- Building Map -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div id="image-map-pro"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Ambience Sensor -->
+        <div class="row">
+            {% for enviro in enviroSensor %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">{{ enviro.name }}  - {{ enviro.description }} - {{ enviro.selectTag }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">TVOC</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-tvoc">
+                                                                {{ enviro.latest_reading.tvoc|default:"0" }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                <i class="ri-tornado-fill text-info"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- TVOC-->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">CO2</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-co2">
+                                                                {{ enviro.latest_reading.co2|default:"0" }}
+                                                                <small style="font-size: smaller;">ppm</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                    <img src="{% static 'images/dashboard/iot/co.png' %}"
+                                                                         alt="co2"
+                                                                         style="height: 47px; width: 47px">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- Co2-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">PM 2.5</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-pm25">
+                                                                 {{ enviro.latest_reading.pm2_5|default:"0" }}
+                                                                <small style="font-size: smaller;">µg/m&sup3;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                <img src="{% static 'images/dashboard/iot/pm25.png' %}"
+                                                                     alt="co2" style="height: 47px; width: 47px">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- PM25 -->
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Pressure</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-pressure">
+                                                                 {{ enviro.latest_reading.pressure|default:"0" }}
+                                                                <small style="font-size: smaller;">hPa</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                <i class="ri-soundcloud-fill text-info"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- Pressure -->
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Temperature</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text"
+                                                                  id="{{ enviro.name }}-temperature">
+                                                                 {{ enviro.latest_reading.temperature|default:"0" }}
+                                                                <small style="font-size: smaller;">&#8451;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                <i class="ri-temp-cold-line text-info"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- Temperature -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Methanal</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-hcho">
+                                                                {{ enviro.latest_reading.hcho|default:"0" }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                    <img src="{% static 'images/dashboard/iot/co2.png' %}" alt="co2"
+                                                         style="height: 47px; width: 47px">
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- Methanal -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Humidity</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-humidity">
+                                                                {{ enviro.latest_reading.humidity|default:"0" }}
+                                                                <small style="font-size: smaller;">%</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                 <i class="ri-contrast-drop-2-line text-info"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- Humidity -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Light</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-light">
+                                                                {{ enviro.latest_reading.light_level|default:"0" }}
+                                                                <small style="font-size: smaller;">LUX</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-warning-subtle rounded-circle fs-2">
+                                                <i class="ri-sun-line text-warning"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- Light -->
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">PIR</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-pir">
+                                                                 {{ enviro.latest_reading.pir_trigger }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                             <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                <img src="{% static 'images/dashboard/iot/pir.png' %}"
+                                                                     alt="pir" style="height: 47px; width: 47px">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- PIR Trigger -->
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">PM10</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ enviro.name }}-pm10">
+                                                                {{ enviro.latest_reading.pm10|default:"0" }}
+                                                                <small style="font-size: smaller;">µg/m&sup3;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                                   <img src="{% static 'images/dashboard/iot/pm10.png' %}"
+                                                                        alt="pir" style="height: 47px; width: 47px">
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- PM10 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <!-- Odor Sensor -->
+            {% for odor in odorSensor %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="text text-muted">{{ odor.name }}  - {{ odor.description }} - {{ odor.selectTag }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Humidity</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ odor.name }}-humidity">
+                                                                {{ odor.latest_reading.humidity|default:"0" }}
+                                                                <small style="font-size: smaller;">%</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-contrast-drop-2-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end humidity -->
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Ammonia</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ odor.name }}-nh3">
+                                                                {{ odor.latest_reading.nh3|default:"0" }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-haze-2-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end NH3 -->
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Hydrogen Sulfide</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ odor.name }}-h2s">
+                                                                {{ odor.latest_reading.h2s|default:"0" }}
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-tornado-fill text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end H2s -->
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="fw-medium text-muted mb-0">Temperature</p>
+                                                        <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ odor.name }}-temperature">
+                                                                {{ odor.latest_reading.temperature|default:"0" }}
+                                                                <small style="font-size: smaller;">&#8451;</small>
+                                                            </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div>
+                                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-temp-cold-line text-info"></i>
+                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div> <!-- end card-->
+                                    </div> <!-- end Temperature -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!--End Odor Sensor -->
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+</div>

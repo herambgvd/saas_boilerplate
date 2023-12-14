@@ -28,6 +28,56 @@ class AM319(models.Model):
 		verbose_name_plural = "Environment Sensor"
 
 
+class GS301(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="gs301History", null=True,
+	                              blank=True)
+	h2s = models.FloatField(null=True, blank=True)
+	nh3 = models.FloatField(null=True, blank=True)
+	temperature = models.FloatField(null=True, blank=True)
+	humidity = models.FloatField(null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "Odor Sensor"
+
+
+class EM400(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="em400History", null=True,
+	                              blank=True)
+	temperature = models.FloatField(null=True, blank=True)
+	battery = models.FloatField(null=True, blank=True)
+	position = models.CharField(max_length=100, null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "Smart Bin Sensor"
+
+
+class EM300(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="em300History", null=True,
+	                              blank=True)
+	temperature = models.FloatField(null=True, blank=True)
+	humidity = models.FloatField(null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "Zone Leakage Sensor"
+
+
+class VS121(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="vs121History", null=True,
+	                              blank=True)
+	people_in = models.FloatField(null=True, blank=True)
+	people_out = models.FloatField(null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "People Count Sensor"
+
 # class VS330(models.Model):
 # 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 # 	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="vs330History", null=True,

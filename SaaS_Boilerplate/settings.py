@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'gvd.localhost', 'vidinsights.cloud',
                  'gvd.vidinsights.cloud',
@@ -118,8 +118,8 @@ TEMPLATES = [
 	},
 ]
 
-WSGI_APPLICATION = 'SaaS_Boilerplate.wsgi.application'
-# ASGI_APPLICATION = 'SaaS_Boilerplate.asgi.application'
+# WSGI_APPLICATION = 'SaaS_Boilerplate.wsgi.application'
+ASGI_APPLICATION = 'SaaS_Boilerplate.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -130,7 +130,7 @@ DATABASE_ROUTERS = (
 # DATABASES = {
 # 	'default': {
 # 		'ENGINE': 'django_tenants.postgresql_backend',
-# 		'NAME': 'saas-django',
+# 		'NAME': 'saas-gvd',
 # 		'USER': 'postgres',
 # 		'PASSWORD': 'Hanu@0542',
 # 		'HOST': 'localhost',

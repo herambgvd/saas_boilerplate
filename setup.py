@@ -59,3 +59,20 @@ if __name__ == "__main__":
 	tenant = create_client_tenant(domain_urlClient, schema_nameClient, nameOfClient, descriptionOfClient)
 	create_tenant_superuser(tenant, usernameClient, emailClient, passwordClient)
 	print(f"Tenant {domain_urlClient} created with superuser {usernameClient}.")
+
+
+# {
+#   "name":"Airtel-Environ-Sensor",
+#   "co2":"1298",
+#   "hcho":"0.06",
+#   "humidity":"49.5",
+#   "light_level":"1",
+#   "pir_trigger":"0",
+#   "pm10":"66",
+#   "pm2_5":"55",
+#   "pressure":"986.5",
+#   "temperature":"37.35",
+#   "tvoc":"1.0",
+#   "category":"Environment Sensor",
+#   "schema":"airtel"
+# }

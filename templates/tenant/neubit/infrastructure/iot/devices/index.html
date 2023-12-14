@@ -1,6 +1,6 @@
 {% extends "tenant/partials/base.html" %}
 {% load static %}
-{% block title %}IOT Gateway{% endblock title %}
+{% block title %}IOT Devices{% endblock title %}
 {% block extra_css %}
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
@@ -19,8 +19,19 @@
             <div class="container-fluid">
 
                 {% block pagetitle %}
-                    {% include "tenant/partials/page-title.html" with pagetitle="IOT" title="IOT" subtitle="Gateway" %}
+                    {% include "tenant/partials/page-title.html" with pagetitle="IOT" title="IOT Sensors" subtitle="Sensors" %}
                 {% endblock pagetitle %}
+                <div class="row">
+                    <div class="col m-2">
+                        <div class="text-sm-end">
+                            <a href="{% url 'Infrastructure:iotDeviceCreate' %}">
+                                <button type="button" class="btn btn-success">
+                                    <i class="bx bx-plus"></i> Add Sensors
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -53,9 +64,13 @@
                                             <td>{{ iot.selectTag }}</td>
                                             <td>
                                                 <div class="d-flex gap-3">
-                                                    <a href="#"
+                                                    <a href="{% url 'Infrastructure:iotDeviceUpdate' iot.id %}"
                                                        class="text-warning">
                                                         <i class="mdi mdi-pencil font-size-18"></i>
+                                                    </a>
+                                                    <a href="{% url 'Infrastructure:iotDeviceDelete' iot.id %}"
+                                                       class="text-danger">
+                                                        <i class="mdi mdi-delete font-size-18"></i>
                                                     </a>
                                                 </div>
                                             </td>

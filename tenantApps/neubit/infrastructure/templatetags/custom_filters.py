@@ -19,3 +19,8 @@ def format_duration(duration):
 	minutes, seconds = divmod(seconds, 60)
 	hours, minutes = divmod(minutes, 60)
 	return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
+
+
+@register.filter
+def get_item(dictionary, key):
+	return dictionary.get(key)
