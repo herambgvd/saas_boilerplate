@@ -49,7 +49,7 @@ def fetch_devices(sender, instance, created, **kwargs):
 		BASE_URL = f"http://{instance.gatewayIp}/api/devices"  # Build BASE_URL using the instance's IP
 		LIMIT = 100
 		headers = {
-			'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsb3JhLWFwcC1zZXJ2ZXIiLCJleHAiOjE3MDI1NjkzMjcsImlzcyI6ImxvcmEtYXBwLXNlcnZlciIsIm5iZiI6MTcwMjQ4MjkyNywic3ViIjoidXNlciIsInVzZXJuYW1lIjoiYXBpdXNlciJ9.RKMUD2K3kD8PIukqU5eTcwlzVTifsM2yxXLORqar3gQ'
+			'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsb3JhLWFwcC1zZXJ2ZXIiLCJleHAiOjE3MDI2NDcwNDgsImlzcyI6ImxvcmEtYXBwLXNlcnZlciIsIm5iZiI6MTcwMjU2MDY0OCwic3ViIjoidXNlciIsInVzZXJuYW1lIjoiYXBpdXNlciJ9.9Jf1QzbOlOvYzfnZ7fgYQ2g028n8-nWY-fPpLFf6D0w'
 		}
 		url = f"{BASE_URL}?limit={LIMIT}"
 		response = requests.get(url, headers=headers, verify=False)
