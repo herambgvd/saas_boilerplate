@@ -137,7 +137,7 @@ DATABASE_ROUTERS = (
 # 		'PORT': '5432',
 # 	}
 # }
-
+#
 DATABASES = {
 	'default': {
 		'ENGINE': 'django_tenants.postgresql_backend',

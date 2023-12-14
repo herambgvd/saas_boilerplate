@@ -29,7 +29,7 @@ function onMessageArrived(r_message) {
     if (data.deviceName && data.deviceName.startsWith("VS121")) {
         vs121Parser(data);
     }
-    if (data.deviceName && data.deviceName.startsWith("GS301")) {
+    if (data.deviceName && data.deviceName.startsWith("GS301")) { // Done
         gs301Parser(data);
     }
     if (data.deviceName && data.deviceName.startsWith("EM300")) {
@@ -38,10 +38,10 @@ function onMessageArrived(r_message) {
     if (data.deviceName && data.deviceName.startsWith("EM400")) {
         em400Parser(data);
     }
+    if (data.deviceName && data.deviceName.startsWith("UC512")) {
+        uc512Parser(data);
+    }
 
-    console.log(data.name);
-    //document.getElementById("data").innerHTML =data.Temperature;
-    document.getElementById("data").innerHTML = out_msg;
 }
 
 function onConnected(recon, url) {
@@ -82,6 +82,7 @@ function sub_topics() {
 }
 
 function am319Parser(data) {
+    console.log(data);
     var am319DeviceName = data.deviceName;
     var tvocDataSet = document.getElementById(am319DeviceName.concat("-tvoc"));
     var coDataSet = document.getElementById(am319DeviceName.concat("-co2"));
@@ -100,7 +101,7 @@ function am319Parser(data) {
     tvocDataSet.innerHTML = data.tvoc;
     coDataSet.innerHTML = data.co2 + "ppm";
     hchoDataSet.innerHTML = data.hcho;
-    pirDataSet.innerHTML = data.pir_trigger;
+    pirDataSet.innerHTML = data.pir;
     pm25DataSet.innerHTML = data.pm2_5 + 'µg/m&sup3;';
     pm10DataSet.innerHTML = data.pm10 + 'µg/m&sup3;';
 }
@@ -112,7 +113,6 @@ function vs121Parser(data) {
     peopleInDataSet.innerHTML = data.people_in;
     peopleOutDataSet.innerHTML = data.people_out;
 }
-
 
 function gs301Parser(data) {
     var gs301DeviceName = data.deviceName;
@@ -144,4 +144,16 @@ function em400Parser(data) {
     positionDataSet.innerHTML = data.position;
     batteryDataSet.innerHTML = data.battery + "%";
 
+}
+
+function uc512Parser(data) {
+    var uc512DeviceName = data.deviceName;
+    var valve1DataSet = document.getElementById(uc512DeviceName.concat("-valve_1"));
+    var valve1PulseDataSet = document.getElementById(uc512DeviceName.concat("-position"));
+    var valve2DataSet = document.getElementById(uc512DeviceName.concat("-valve_2"));
+    var valve2PulseDataSet = document.getElementById(uc512DeviceName.concat("-valve_2_pulse"));
+    valve1DataSet.innerHTML = data.temperature;
+    valve1PulseDataSet.innerHTML = data.position;
+    valve2DataSet.innerHTML = data.battery;
+    valve2PulseDataSet.innerHTML = data.position;
 }

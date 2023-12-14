@@ -1,0 +1,64 @@
+{% load static %}
+<div class="row">
+    {% for solenoid in uc512 %}
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="text text-muted">{{ solenoid.name }}  - {{ solenoid.description }} - {{ solenoid.selectTag }}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Valve-1</p>
+                                                <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ solenoid.name }}-valve-1">
+                                                                {{ solenoid.latest_reading.valve_1|default:"Open" }}
+                                                            </span>
+                                                </h4>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="bx bx-water text-info"></i>
+                                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end Valve-1 -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Valve-2</p>
+                                                <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ solenoid.name }}-valve_2">
+                                                                {{ solenoid.latest_reading.valve_2|default:"Open" }}
+                                                            </span>
+                                                </h4>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-haze-2-line text-info"></i>
+                                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end NH3 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

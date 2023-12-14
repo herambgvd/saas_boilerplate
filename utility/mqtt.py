@@ -19,7 +19,7 @@ from django_tenants.utils import tenant_context
 # Import your Django models
 from tenant.models import Client as Tenant
 from tenantApps.neubit.infrastructure.models import IotDevice
-from tenantApps.neubit.monitoring.models import AM319, GS301, EM400, VS121, EM300
+from tenantApps.neubit.monitoring.models import AM319, GS301, EM400, VS121, EM300, UC512
 
 # MQTT settings
 MQTT_BROKER = os.getenv("MQTT_BROKER", "64.227.130.161")
@@ -46,7 +46,7 @@ def am319Parser(message_dict):
 		device.hcho = message_dict.get('hcho')
 		device.humidity = message_dict.get('humidity')
 		device.light_level = message_dict.get('light_level')
-		device.pir_trigger = message_dict.get('pir_trigger')
+		device.pir_trigger = message_dict.get('pir')
 		device.pm10 = message_dict.get('pm10')
 		device.pm2_5 = message_dict.get('pm2_5')
 		device.pressure = message_dict.get('pressure')
@@ -113,6 +113,21 @@ def vs121Parser(message_dict):
 	print("VS121 Save")
 
 
+def uc512Parser(message_dict):
+	iot_device_instance = IotDevice.objects.get(
+		name=message_dict.get('deviceName'))  # Replace 'some_id' with actual logic
+	# Create a new instance of UC512
+	uc512_instance = UC512(
+		selectIOT=iot_device_instance,
+		valve_1=message_dict.get('valve_1'),
+		valve_1_pulse=message_dict.get('valve_1_pulse'),
+		valve_2=message_dict.get('valve_2'),
+		valve_2_pulse=message_dict.get('valve_2_pulse'),
+	)
+	uc512_instance.save()
+	print("UC512 Save")
+
+
 ########### End Message Parser #################
 
 # Handle device-specific data processing
@@ -129,6 +144,8 @@ def handle_device_data(tenant, message_dict):
 		am319Parser(message_dict)
 	if message_dict.get('deviceName', '').startswith('EM300'):
 		em300Parser(message_dict)
+	if message_dict.get('deviceName', '').startswith('UC512'):
+		uc512Parser(message_dict)
 
 
 def on_message(client, userdata, msg):

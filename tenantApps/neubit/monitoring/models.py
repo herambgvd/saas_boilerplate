@@ -15,7 +15,7 @@ class AM319(models.Model):
 	hcho = models.FloatField(null=True, blank=True)
 	humidity = models.FloatField(null=True, blank=True)
 	light_level = models.IntegerField(null=True, blank=True)
-	pir_trigger = models.IntegerField(null=True, blank=True)
+	pir_trigger = models.CharField(max_length=20, null=True, blank=True)
 	pm10 = models.IntegerField(null=True, blank=True)
 	pm2_5 = models.IntegerField(null=True, blank=True)
 	pressure = models.FloatField(null=True, blank=True)
@@ -73,6 +73,20 @@ class VS121(models.Model):
 	                              blank=True)
 	people_in = models.FloatField(null=True, blank=True)
 	people_out = models.FloatField(null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "People Count Sensor"
+
+
+class UC512(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="uc512History", null=True,
+	                              blank=True)
+	valve_1 = models.CharField(max_length=10, null=True, blank=True)
+	valve_1_pulse = models.CharField(max_length=10, null=True, blank=True)
+	valve_2 = models.CharField(max_length=10, null=True, blank=True)
+	valve_2_pulse = models.CharField(max_length=10, null=True, blank=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
