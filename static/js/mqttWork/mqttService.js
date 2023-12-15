@@ -41,6 +41,9 @@ function onMessageArrived(r_message) {
     if (data.deviceName && data.deviceName.startsWith("UC512")) {
         uc512Parser(data);
     }
+    if (data.deviceName && data.deviceName.startsWith("WS201")) {
+        ws201Parser(data);
+    }
 
 }
 
@@ -143,7 +146,6 @@ function em400Parser(data) {
     temperatureDataSet.innerHTML = data.temperature + " &#8451;";
     positionDataSet.innerHTML = data.position;
     batteryDataSet.innerHTML = data.battery + "%";
-
 }
 
 function uc512Parser(data) {
@@ -156,4 +158,13 @@ function uc512Parser(data) {
     valve1PulseDataSet.innerHTML = data.position;
     valve2DataSet.innerHTML = data.battery;
     valve2PulseDataSet.innerHTML = data.position;
+}
+
+function ws201Parser(data) {
+    var ws201DeviceName = data.deviceName;
+    console.log(ws201DeviceName);
+    var distanceDataSet = document.getElementById(ws201DeviceName.concat("-distance"));
+    var remainingDataSet = document.getElementById(ws201DeviceName.concat("-remaining"));
+    distanceDataSet.innerHTML = data.distance + " cm";
+    remainingDataSet.innerHTML = data.remaining + " %";
 }

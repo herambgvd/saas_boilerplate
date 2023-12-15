@@ -90,7 +90,20 @@ class UC512(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
-		verbose_name_plural = "People Count Sensor"
+		verbose_name_plural = "Solenoid Valve Controller"
+
+
+class WS201(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	selectIOT = models.ForeignKey(IotDevice, on_delete=models.CASCADE, related_name="ws201History", null=True,
+	                              blank=True)
+	battery = models.FloatField(null=True, blank=True)
+	distance = models.FloatField(null=True, blank=True)
+	remaining = models.FloatField(null=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural = "Fill Level Sensor"
 
 # class VS330(models.Model):
 # 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)

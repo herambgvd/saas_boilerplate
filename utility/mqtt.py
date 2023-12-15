@@ -19,7 +19,7 @@ from django_tenants.utils import tenant_context
 # Import your Django models
 from tenant.models import Client as Tenant
 from tenantApps.neubit.infrastructure.models import IotDevice
-from tenantApps.neubit.monitoring.models import AM319, GS301, EM400, VS121, EM300, UC512
+from tenantApps.neubit.monitoring.models import AM319, GS301, EM400, VS121, EM300, UC512, WS201
 
 # MQTT settings
 MQTT_BROKER = os.getenv("MQTT_BROKER", "64.227.130.161")
@@ -128,6 +128,18 @@ def uc512Parser(message_dict):
 	print("UC512 Save")
 
 
+def ws201Parser(message_dict):
+	iot_device_instance = IotDevice.objects.get(
+		name=message_dict.get('deviceName'))  # Replace 'some_id' with actual logic
+	# Create a new instance of WS201
+	ws201_instance = WS201(
+		selectIOT=iot_device_instance,
+		battery=message_dict.get('battery'),
+		remaining=message_dict.get('remaining'),
+		distance=message_dict.get('distance')
+	)
+	ws201_instance.save()
+	print("WS201 Save")
 ########### End Message Parser #################
 
 # Handle device-specific data processing
@@ -146,7 +158,8 @@ def handle_device_data(tenant, message_dict):
 		em300Parser(message_dict)
 	if message_dict.get('deviceName', '').startswith('UC512'):
 		uc512Parser(message_dict)
-
+	if message_dict.get('deviceName', '').startswith('WS201'):
+		ws201Parser(message_dict)
 
 def on_message(client, userdata, msg):
 	try:

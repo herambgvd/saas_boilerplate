@@ -66,10 +66,14 @@ def iotBranchDashboard(request, branchId):
 	uc512 = IotDevice.objects.filter(selectBranch=branchId).filter(name__startswith="UC512")
 	for device in uc512:
 		device.latest_reading = device.uc512History.order_by('-created_at').first()
+	ws201 = IotDevice.objects.filter(selectBranch=branchId).filter(name__startswith="WS201")
+	for device in ws201:
+		device.latest_reading = device.ws201History.order_by('-created_at').first()
+
 	context = {'sensor_groups': sensor_groups,
 	           'odorSensor': odorSensor,
 	           'enviroSensor': enviroSensor, 'em300': em300,
-	           'em400': em400, 'vs121': vs121, 'uc512': uc512}
+	           'em400': em400, 'vs121': vs121, 'uc512': uc512, 'ws201': ws201}
 	return render(request, 'tenant/common/dashboard/iot/newIotBranch.html', context)
 
 
