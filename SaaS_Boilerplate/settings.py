@@ -127,27 +127,27 @@ DATABASE_ROUTERS = (
 	'django_tenants.routers.TenantSyncRouter',
 )
 
-DATABASES = {
-	'default': {
-		'ENGINE': 'django_tenants.postgresql_backend',
-		'NAME': 'saas-gvd',
-		'USER': 'postgres',
-		'PASSWORD': 'Hanu@0542',
-		'HOST': 'localhost',
-		'PORT': '5432',
-	}
-}
-#
 # DATABASES = {
 # 	'default': {
 # 		'ENGINE': 'django_tenants.postgresql_backend',
-# 		'NAME': os.environ.get('DB_NAME'),
-# 		'USER': os.environ.get('DB_USER'),
-# 		'PASSWORD': os.environ.get('DB_PROD_PASSWORD'),
-# 		'HOST': os.environ.get('DB_HOST'),
-# 		'PORT': os.environ.get('DB_PORT'),
+# 		'NAME': 'saas-gvd',
+# 		'USER': 'postgres',
+# 		'PASSWORD': 'Hanu@0542',
+# 		'HOST': 'localhost',
+# 		'PORT': '5432',
 # 	}
 # }
+#
+DATABASES = {
+	'default': {
+		'ENGINE': 'django_tenants.postgresql_backend',
+		'NAME': os.environ.get('DB_NAME'),
+		'USER': os.environ.get('DB_USER'),
+		'PASSWORD': os.environ.get('DB_PROD_PASSWORD'),
+		'HOST': os.environ.get('DB_HOST'),
+		'PORT': os.environ.get('DB_PORT'),
+	}
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
