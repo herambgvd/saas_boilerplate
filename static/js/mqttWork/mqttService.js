@@ -153,13 +153,13 @@ function em400Parser(data) {
 function uc512Parser(data) {
     var uc512DeviceName = data.deviceName;
     var valve1DataSet = document.getElementById(uc512DeviceName.concat("-valve_1"));
-    var valve1PulseDataSet = document.getElementById(uc512DeviceName.concat("-position"));
+    var valve1PulseDataSet = document.getElementById(uc512DeviceName.concat("-valve_1_pulse"));
     var valve2DataSet = document.getElementById(uc512DeviceName.concat("-valve_2"));
     var valve2PulseDataSet = document.getElementById(uc512DeviceName.concat("-valve_2_pulse"));
-    valve1DataSet.innerHTML = data.temperature;
-    valve1PulseDataSet.innerHTML = data.position;
-    valve2DataSet.innerHTML = data.battery;
-    valve2PulseDataSet.innerHTML = data.position;
+    valve1DataSet.innerHTML = data.valve_1;
+    valve1PulseDataSet.innerHTML = data.valve_1_pulse;
+    valve2DataSet.innerHTML = data.valve_2;
+    valve2PulseDataSet.innerHTML = data.valve_2_pulse;
 }
 
 function ws201Parser(data) {
