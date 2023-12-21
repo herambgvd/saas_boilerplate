@@ -137,7 +137,7 @@
         <!-- Smart Bin Sensor -->
         {% for bin in em400 %}
             <div class="row">
-                <div class="col">
+                <div class="col"d>
                     <div class="card">
                         <div class="card-header">
                             <span class="text text-muted">{{ bin.name }}  - {{ bin.description }} - {{ bin.selectTag }}</span>
@@ -217,6 +217,30 @@
                                         </div><!-- end card body -->
                                     </div> <!-- end card-->
                                 </div> <!-- end Battery -->
+		                            <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <p class="fw-medium text-muted mb-0">Distance</p>
+                                                    <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ bin.name }}-distance">
+                                                                {{ bin.latest_reading.distance|default:"0" }}
+                                                                <small style="font-size: smaller;">cm</small>
+                                                            </span>
+                                                    </h4>
+                                                </div>
+                                                <div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-pin-distance-line text-info"></i>
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div> <!-- end card-->
+                                </div> <!-- end Distance -->
                             </div>
                         </div>
                     </div>
@@ -226,7 +250,7 @@
         <!--End Smart Bin Sensor -->
     </div>
     <div class="col-md-6">
-        <!-- Smart Bin Sensor -->
+        <!--Fill Level Sensor -->
         {% for level in ws201 %}
             <div class="row">
                 <div class="col">
@@ -285,6 +309,32 @@
                                     </div> <!-- end card-->
                                 </div> <!-- end remaining -->
                             </div>
+		                        <div class="row">
+				                        <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <p class="fw-medium text-muted mb-0">Battery</p>
+                                                    <h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+                                                            <span class="text" id="{{ level.name }}-battery">
+                                                                {{ level.latest_reading.battery|default:0 }}
+                                                                <small style="font-size: smaller;">%</small>
+                                                            </span>
+                                                    </h4>
+                                                </div>
+                                                <div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <i class="ri-battery-charge-fill text-info"></i>
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div> <!-- end card-->
+                                </div> <!-- end battery -->
+		                        </div>
                         </div>
                     </div>
                 </div>

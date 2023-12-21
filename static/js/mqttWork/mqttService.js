@@ -143,9 +143,11 @@ function em400Parser(data) {
     var temperatureDataSet = document.getElementById(em400DeviceName.concat("-temperature"));
     var positionDataSet = document.getElementById(em400DeviceName.concat("-position"));
     var batteryDataSet = document.getElementById(em400DeviceName.concat("-battery"));
+    var distanceDataSet = document.getElementById(em400DeviceName.concat("-distance"));
     temperatureDataSet.innerHTML = data.temperature + " &#8451;";
     positionDataSet.innerHTML = data.position;
     batteryDataSet.innerHTML = data.battery + "%";
+    distanceDataSet.innerHTML = data.distance + "cm";
 }
 
 function uc512Parser(data) {
@@ -165,6 +167,8 @@ function ws201Parser(data) {
     console.log(ws201DeviceName);
     var distanceDataSet = document.getElementById(ws201DeviceName.concat("-distance"));
     var remainingDataSet = document.getElementById(ws201DeviceName.concat("-remaining"));
+    var batteryDataSet = document.getElementById(ws201DeviceName.concat("-battery"));
     distanceDataSet.innerHTML = data.distance + " cm";
     remainingDataSet.innerHTML = data.remaining + " %";
+    batteryDataSet.innerHTML = data.battery + " %";
 }
